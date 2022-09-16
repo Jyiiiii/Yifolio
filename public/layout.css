@@ -5,3 +5,12 @@ body {
 footer {
   background-color: white;
 }
+
+#siteLogo {
+  text-decoration: none;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: rgb(47, 47, 47);
+  letter-spacing: 0.21em;
+}
