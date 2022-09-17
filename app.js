@@ -17,11 +17,22 @@ app.get("/", function (request, response) {
   response.render("start.hbs");
 });
 
-app.get("/portfolio", function (request, response) {
+app.get("/projects", function (request, response) {
   const model = {
-    portfolioWorks: data.portfolioWorks,
+    projects: data.projects,
   };
-  response.render("portfolio.hbs", model);
+  response.render("projects.hbs", model);
+});
+
+app.get("/projects/:id", function (request, response) {
+  const id = request.params.id;
+
+  const project = data.projects.find((p) => p.id == id); /* w=each project*/
+
+  const model = {
+    project: project,
+  };
+  response.render("project.hbs", model);
 });
 
 app.listen(8080);
