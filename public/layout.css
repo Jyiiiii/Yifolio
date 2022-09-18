@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(250, 250, 231);
+  background-color: rgb(250, 250, 236);
 }
 
 footer {
@@ -10,7 +10,28 @@ footer {
   text-decoration: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 20px;
   color: rgb(47, 47, 47);
   letter-spacing: 0.21em;
+}
+
+#nav a {
+  text-decoration: none;
+  font-family: ivypresto-display, serif;
+  font-size: 18px;
+  color: rgb(47, 47, 47);
+  font-weight: 300;
+}
+
+#copyright {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+#intro {
+  font-family: ivypresto-display, serif;
+  font-weight: 100;
+  font-size: 50px;
+  font-weight: 0.02em;
 }

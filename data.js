@@ -12,3 +12,10 @@ exports.projects = [
     title: "Yijia Public Service",
   },
 ];
+
+exports.blogs = [
+  {
+    id: 1,
+    title: "New Life in Sweden",
+  },
+];

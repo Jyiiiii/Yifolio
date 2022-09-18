@@ -10,16 +10,17 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://use.typekit.net/lgo5ouu.css" />
     <link rel="stylesheet" href="/layout.css" />
   </head>
   <body>
     <header>
       <a id="siteLogo" href="/">YI JIANG</a>
-      <nav>
+      <nav id="nav">
         <a href="/projects">Projects</a>
-        {{! <a href="/portfolio/add">AddPortfolio</a>
-        <a href="/dailyBlog">DailyBlog</a>
-        <a href="/dailyBlog/add">AddBlog</a>
+        {{! <a href="/portfolio/add">AddPortfolio</a>}}
+        <a href="/blogs">Blogs</a>
+        {{!<a href="/dailyBlog/add">AddBlog</a>
         <a href="/contact">Contact</a>
         <a href="/login">Login</a> }}
       </nav>
@@ -28,13 +29,14 @@
     {{{body}}}
 
     <footer>
-      <section>
+      <nav id="nav">
         <a href="/">Home</a>
+        /
         <a href="/projects">Projects</a>
-        {{!-- <a href="/dailyBlog">DailyBlog</a>
-        <a href="/contact">Contact</a> }} --}}
-      </section>
-      Copyright Yi Jiang 2022
+        <a href="/blogs">DailyBlog</a>
+        {{!<a href="/contact">Contact</a> }}
+      </nav>
+      <p id="copyright">Copyright Yi Jiang 2022</p>
     </footer>
   </body>
 </html>

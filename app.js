@@ -35,4 +35,22 @@ app.get("/projects/:id", function (request, response) {
   response.render("project.hbs", model);
 });
 
+app.get("/blogs", function (request, response) {
+  const model = {
+    blogs: data.blogs,
+  };
+  response.render("blogs.hbs", model);
+});
+
+app.get("/blogs/:id", function (request, response) {
+  const id = request.params.id;
+
+  const blog = data.blogs.find((b) => b.id == id); /* w=each blog*/
+
+  const model = {
+    blog: blog,
+  };
+  response.render("blog.hbs", model);
+});
+
 app.listen(8080);
