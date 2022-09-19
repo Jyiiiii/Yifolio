@@ -53,4 +53,8 @@ app.get("/blogs/:id", function (request, response) {
   response.render("blog.hbs", model);
 });
 
+app.get("/contact", function (request, response) {
+  response.render("contact.hbs");
+});
+
 app.listen(8080);
