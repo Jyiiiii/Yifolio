@@ -1,6 +1,11 @@
 <h1>My project</h1>
 {{#if project}}
   <p>{{project.title}}</p>
+  <p>{{project.intro}}</p>
+
+  <form action="/delete-project/{{project.id}}" method="post">
+    <input type="submit" value="Delete" />
+  </form>
 {{else}}
   <p>I have not got this project yet.🤪</p>
 {{/if}}
