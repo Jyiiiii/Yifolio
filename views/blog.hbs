@@ -3,6 +3,10 @@
   <p>{{blog.title}}</p>
   <p>{{blog.date}}</p>
   <p>{{blog.intro}}</p>
+
+  <form action="/delete-blog/{{blog.id}}" method="post">
+    <input type="submit" value="Delete" />
+  </form>
 {{else}}
   <p>I have not post this blog yet.🤪</p>
 {{/if}}

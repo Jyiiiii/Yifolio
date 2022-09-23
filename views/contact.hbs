@@ -9,24 +9,31 @@
 </section>
 
 <section>
-  <div>
-    <p>Name</p>
-    <input type="text" placeholder="First Name" />
-    <input type="text" placeholder="Last Name" />
-  </div>
-  <div>
-    <p>Email</p>
-    <input type="text" placeholder="Your Email" />
-  </div>
-  <div>
-    <p>Project Deadline</p>
-    <input type="number" placeholder="MM" />
-    <input type="number" placeholder="DD" />
-    <input type="number" placeholder="YY" />
-  </div>
-  <div>
-    <p>Description</p>
-    <input type="text" placeholder="Short Introduction..." />
-  </div>
-  <button>SEND</button>
+  <form action="" method="post">
+    <div>
+      <p>Name</p>
+      <input type="text" placeholder="First Name" name="firstName" />
+      <input type="text" placeholder="Last Name" name="lastName" />
+    </div>
+    <div>
+      <p>Email</p>
+      <input type="text" placeholder="Your Email" name="email" />
+    </div>
+    <div>
+      <p>Project Deadline</p>
+      <input type="number" placeholder="MM" name="month" />
+      <input type="number" placeholder="DD" name="date" />
+      <input type="number" placeholder="YY" name="year" />
+    </div>
+    <div>
+      <p>Description</p>
+      <input
+        type="text"
+        placeholder="Short Description..."
+        name="description"
+      />
+    </div>
+    <input type="submit" value="SEND" />
+  </form>
+
 </section>

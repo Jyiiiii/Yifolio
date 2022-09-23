@@ -10,7 +10,7 @@ database.run(`
   CREATE TABLE IF NOT EXISTS projects(
       id INTEGER PRIMARY KEY, 
       title TEXT, 
-      intro TEXT,
+      intro TEXT
   )
 `);
 
@@ -108,6 +108,35 @@ app.get("/blogs", function (request, response) {
     };
 
     response.render("blogs.hbs", model);
+  });
+});
+
+app.get("/blogs/add", function (request, response) {
+  response.render("create-newblog.hbs");
+});
+
+app.post("/blogs/add", function (request, response) {
+  const title = request.body.title;
+  const date = request.body.date;
+  const intro = request.body.intro;
+
+  const query = `INSERT INTO blogs (title,date,intro) VALUES (?,?,?)`;
+
+  const values = [title, date, intro];
+
+  database.run(query, values, function (error) {
+    response.redirect("/blogs");
+  });
+});
+
+app.post("/delete-blog/:id", function (request, response) {
+  const id = request.params.id;
+
+  const query = `DELETE FROM blogs WHERE id=?`;
+  const values = [id];
+
+  database.run(query, values, function (error) {
+    response.redirect("/blogs");
   });
 });
 
