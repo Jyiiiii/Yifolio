@@ -6,6 +6,23 @@ const sqlite3 = require("sqlite3");
 
 const database = new sqlite3.Database("Yifolio-database.db");
 
+database.run(`
+  CREATE TABLE IF NOT EXISTS projects(
+      id INTEGER PRIMARY KEY, 
+      title TEXT, 
+      intro TEXT,
+  )
+`);
+
+database.run(`
+  CREATE TABLE IF NOT EXISTS blogs(
+      id INTEGER PRIMARY KEY, 
+      title TEXT,
+      date TEXT, 
+      intro TEXT
+  )
+`);
+
 const app = express();
 
 app.engine(
@@ -28,11 +45,15 @@ app.get("/", function (request, response) {
 });
 
 app.get("/projects", function (request, response) {
-  const model = {
-    projects: data.projects,
-  };
+  const query = `SELECT * FROM projects`;
 
-  response.render("projects.hbs", model);
+  database.all(query, function (error, projects) {
+    const model = {
+      projects,
+    };
+
+    response.render("projects.hbs", model);
+  });
 });
 
 app.get("/projects/add", function (request, response) {
@@ -41,59 +62,68 @@ app.get("/projects/add", function (request, response) {
 
 app.post("/projects/add", function (request, response) {
   const title = request.body.title;
-
   const intro = request.body.intro;
 
-  const project = {
-    title,
-    intro,
-    id: data.projects.length + 1,
-  };
+  const query = `INSERT INTO projects (title,intro) VALUES (?,?)`;
 
-  data.projects.push(project);
+  const values = [title, intro];
 
-  response.redirect("/projects");
+  database.run(query, values, function (error) {
+    response.redirect("/projects");
+  });
 });
 
 app.post("/delete-project/:id", function (request, response) {
   const id = request.params.id;
 
-  const projectIndex = data.projects.findIndex((p) => p.id == id);
+  const query = `DELETE FROM projects WHERE id=?`;
+  const values = [id];
 
-  data.projects.slice(projectIndex, 1);
-
-  response.redirect("/projects");
+  database.run(query, values, function (error) {
+    response.redirect("/projects");
+  });
 });
 
 app.get("/projects/:id", function (request, response) {
   const id = request.params.id;
 
-  const project = data.projects.find((p) => p.id == id); /* w=each project*/
+  const query = `SELECT * FROM projects WHERE id=?`;
+  const values = [id];
 
-  const model = {
-    project: project,
-  };
-  response.render("project.hbs", model);
+  database.get(query, values, function (error, project) {
+    const model = {
+      project,
+    };
+
+    response.render("project.hbs", model);
+  });
 });
 
 app.get("/blogs", function (request, response) {
-  const model = {
-    blogs: data.blogs,
-  };
+  const query = `SELECT * FROM blogs`;
 
-  response.render("blogs.hbs", model);
+  database.all(query, function (error, blogs) {
+    const model = {
+      blogs,
+    };
+
+    response.render("blogs.hbs", model);
+  });
 });
 
 app.get("/blogs/:id", function (request, response) {
   const id = request.params.id;
 
-  const blog = data.blogs.find((b) => b.id == id); /* w=each blog*/
+  const query = `SELECT * FROM blogs WHERE id=?`;
+  const values = [id];
 
-  const model = {
-    blog: blog,
-  };
+  database.get(query, values, function (error, blog) {
+    const model = {
+      blog,
+    };
 
-  response.render("blog.hbs", model);
+    response.render("blog.hbs", model);
+  });
 });
 
 app.get("/contact", function (request, response) {

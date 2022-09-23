@@ -1,5 +1,5 @@
 {
-  "name": "yisportfoiloweb",
+  "name": "Yifolio",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Jyiiiii/Yisportfoiloweb.git"
+    "url": "git+https://github.com/Jyiiiii/Yifolio.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Jyiiiii/Yisportfoiloweb/issues"
+    "url": "https://github.com/Jyiiiii/Yifolio/issues"
   },
-  "homepage": "https://github.com/Jyiiiii/Yisportfoiloweb#readme",
+  "homepage": "https://github.com/Jyiiiii/Yifolio#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
