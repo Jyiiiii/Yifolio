@@ -23,6 +23,19 @@ database.run(`
   )
 `);
 
+database.run(`
+    CREATE TABLE IF NOT EXISTS contactInfos(
+      id INTEGER PRIMARY KEY,
+      firstName TEXT,
+      lastName TEXT,
+      email TEXT,
+      month INTEGER,
+      date INTEGER,
+      year INTEGER,
+      description TEXT
+    )
+`);
+
 const app = express();
 
 app.engine(
@@ -156,7 +169,32 @@ app.get("/blogs/:id", function (request, response) {
 });
 
 app.get("/contact", function (request, response) {
-  response.render("contact.hbs");
+  const query = `SELECT * FROM contactInfos`;
+
+  database.all(query, function (error, contactInfos) {
+    const model = {
+      contactInfos,
+    };
+    response.render("contact.hbs", model);
+  });
+});
+
+app.post("/contact", function (request, response) {
+  const firstName = request.body.firstName;
+  const lastName = request.body.lastName;
+  const email = request.body.email;
+  const month = request.body.month;
+  const date = request.body.date;
+  const year = request.body.year;
+  const description = request.body.description;
+
+  const query = `INSERT INTO contactInfos (firstName,lastName,email,month,date,year,description) VALUES (?,?,?,?,?,?,?)`;
+
+  const values = [firstName, lastName, email, month, date, year, description];
+
+  database.run(query, values, function (error) {
+    response.redirect("/contact");
+  });
 });
 
 app.listen(8080);

@@ -35,5 +35,17 @@
     </div>
     <input type="submit" value="SEND" />
   </form>
-
 </section>
+
+<ul>
+  {{#if contactInfos.length}}
+    {{#each contactInfos}}
+      <div>
+        <p>{{firstName}}{{lastName}}</p>
+        <p>{{email}}</p>
+        <p>{{month}}{{date}}{{year}}</p>
+        <p>{{description}}</p>
+      </div>
+    {{/each}}
+  {{/if}}
+</ul>
