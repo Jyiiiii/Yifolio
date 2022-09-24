@@ -6,6 +6,10 @@ footer {
   background-color: white;
 }
 
+p {
+  padding-left: 17px;
+}
+
 #siteLogo {
   text-decoration: none;
   font-family: "Montserrat", sans-serif;
@@ -13,8 +17,12 @@ footer {
   font-size: 20px;
   color: rgb(47, 47, 47);
   letter-spacing: 0.21em;
+  padding-left: 17px;
 }
 
+#nav {
+  padding-left: 17px;
+}
 #nav a {
   text-decoration: none;
   font-family: ivypresto-display, serif;
@@ -23,15 +31,62 @@ footer {
   font-weight: 300;
 }
 
+#navAbove {
+  margin-left: 150px;
+  margin-top: -25px;
+}
+
+#navAbove a {
+  text-decoration: none;
+  font-family: ivypresto-display, serif;
+  font-size: 18px;
+  color: rgb(47, 47, 47);
+  font-weight: 300;
+  margin-left: 15px;
+}
+
+hr {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
 #copyright {
   font-family: "Montserrat", sans-serif;
   font-weight: 400;
   font-size: 15px;
+  padding-left: 17px;
 }
 
 #intro {
   font-family: ivypresto-display, serif;
   font-weight: 100;
   font-size: 50px;
-  font-weight: 0.02em;
+  width: 50%;
+}
+
+#contactForm {
+  margin-left: 50%;
+  margin-top: -150px;
+}
+
+#contactHeader {
+  width: 45%;
+  font-family: ivypresto-display, serif;
+  font-size: 50px;
+  font-weight: 100;
+  padding-left: 17px;
+  margin-top: 5%;
+}
+
+#emailLink {
+  font-family: "Montserrat", sans-serif;
+}
+
+#emailLink a {
+  color: rgb(47, 47, 47);
+  padding-left: 17px;
+}
+
+#socialLinks a {
+  padding-left: 17px;
 }

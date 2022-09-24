@@ -1,29 +1,57 @@
-<h1>Wanna get in touch?</h1>
-<h1>Let's talk!</h1>
+{{! <a target="_blank" href="https://icons8.com/icon/118485/facebook">Facebook</a>
+icon by
+<a target="_blank" href="https://icons8.com">Icons8</a> }}
+
+<h1 id="contactHeader">
+  Wanna get in touch?
+  <br />
+  Let's talk!
+</h1>
 
 <section>
-  <h5>For general questions:</h5>
-  <a href="https://www.instagram.com/jyyy_ssie/">My ins</a>
-  <a href="https://www.facebook.com/profile.php?id=100072766143133">My Facebook</a>
-  <p>jyiiii047@gmail.com</p>
+  <div id="emailLink">
+    <p>For general questions:</p>
+    <a href="jyiiii047@gmail.com">jyiiii047@gmail.com</a>
+  </div>
+  <br />
+  <div id="socialLinks">
+    <a href="https://www.instagram.com/jyyy_ssie/">
+      <img src="../public/instagramicon.svg" />
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=100072766143133">
+      <img src="../public/facebookicon.svg" />
+    </a>
+  </div>
 </section>
 
 <section>
-  <form action="" method="post">
-    <div>
-      <p>Name</p>
-      <input type="text" placeholder="First Name" name="firstName" />
-      <input type="text" placeholder="Last Name" name="lastName" />
+  <form action="" method="post" id="contactForm">
+    <div class="form-group">
+      <p class="form-label" for="input-example-1">Name</p>
+      <input
+        class="form-input"
+        type="text"
+        id="input-example-1"
+        placeholder="First Name"
+        name="firstName"
+      />
+      <input
+        class="form-input"
+        type="text"
+        id="input-example-1"
+        placeholder="Last Name"
+        name="lastName"
+      />
     </div>
     <div>
       <p>Email</p>
-      <input type="text" placeholder="Your Email" name="email" />
+      <input type="email" placeholder="Your Email" name="email" />
     </div>
     <div>
       <p>Project Deadline</p>
-      <input type="number" placeholder="MM" name="month" />
-      <input type="number" placeholder="DD" name="date" />
-      <input type="number" placeholder="YY" name="year" />
+      <input type="month" placeholder="MM" name="month" />
+      <input type="date" placeholder="DD" name="date" />
+      <input type="year" placeholder="YY" name="year" />
     </div>
     <div>
       <p>Description</p>
