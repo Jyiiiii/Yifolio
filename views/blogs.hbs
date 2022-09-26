@@ -1,8 +1,10 @@
 <h1>My Blogs</h1>
 <p>Record my life.</p>
 
-<ul>
+<div class="portfolioDisplay">
   {{#each blogs}}
-    <li><a href="/blogs/{{id}}"> {{title}}</a></li>
+    <div class="gridItem">
+      <a href="/blogs/{{id}}"> <p id="title">{{title}}</p></a>
+    </div>
   {{/each}}
-</ul>
+</div>

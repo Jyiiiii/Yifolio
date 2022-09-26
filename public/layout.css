@@ -1,3 +1,11 @@
+:root {
+  --text_color: rgb(47, 47, 47);
+  --padding_left: 17px;
+  --title_font: ivypresto-display, serif;
+  --text_font: "Montserrat", sans-serif;
+}
+
+/*general*/
 body {
   background-color: rgb(250, 250, 236);
 }
@@ -7,28 +15,30 @@ footer {
 }
 
 p {
-  padding-left: 17px;
+  padding-left: var(--padding_left);
 }
 
+a {
+  font-family: var(--title_font);
+  text-decoration: none;
+  color: var(--text_color);
+}
+
+/* header */
 #siteLogo {
   text-decoration: none;
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--text_font);
   font-weight: 600;
   font-size: 20px;
-  color: rgb(47, 47, 47);
+  color: var(--text_color);
   letter-spacing: 0.21em;
-  padding-left: 17px;
+  padding-left: var(--padding_left);
 }
 
-#nav {
-  padding-left: 17px;
-}
 #nav a {
-  text-decoration: none;
-  font-family: ivypresto-display, serif;
   font-size: 18px;
-  color: rgb(47, 47, 47);
   font-weight: 300;
+  padding-left: var(--padding_left);
 }
 
 #navAbove {
@@ -37,28 +47,27 @@ p {
 }
 
 #navAbove a {
-  text-decoration: none;
-  font-family: ivypresto-display, serif;
   font-size: 18px;
-  color: rgb(47, 47, 47);
   font-weight: 300;
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
+/* footer */
 hr {
   margin-left: 0.5em;
   margin-right: 0.5em;
 }
 
 #copyright {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--text_font);
   font-weight: 400;
   font-size: 15px;
-  padding-left: 17px;
+  padding-left: var(--padding_left);
 }
 
+/* detailPages */
 #intro {
-  font-family: ivypresto-display, serif;
+  font-family: var(--title_font);
   font-weight: 100;
   font-size: 50px;
   width: 50%;
@@ -71,22 +80,49 @@ hr {
 
 #contactHeader {
   width: 45%;
-  font-family: ivypresto-display, serif;
+  font-family: var(--title_font);
   font-size: 50px;
   font-weight: 100;
-  padding-left: 17px;
+  padding-left: var(--padding_left);
   margin-top: 5%;
 }
 
 #emailLink {
-  font-family: "Montserrat", sans-serif;
+  font-family: var(--text_font);
 }
 
 #emailLink a {
-  color: rgb(47, 47, 47);
-  padding-left: 17px;
+  padding: var(--padding_left);
+  text-decoration: underline;
 }
 
-#socialLinks a {
-  padding-left: 17px;
+.portfolioDisplay {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 60px;
+  grid-row-gap: 20px;
+  padding: 17px;
+}
+
+.gridItem {
+  background-color: rgb(228, 228, 228);
+}
+
+#title {
+  font-size: 24px;
+  color: var(--text_color);
+  font-weight: 100;
+}
+
+.contactDisplay {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 40px;
+  grid-row-gap: 20px;
+  padding: 17px;
+}
+
+.contactItems {
+  background-color: white;
+  border: 1px solid var(--text_color);
 }

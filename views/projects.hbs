@@ -1,8 +1,10 @@
 <h1>My projects</h1>
 <p>These are my works.</p>
 
-<ul>
+<div class="portfolioDisplay">
   {{#each projects}}
-    <li><a href="/projects/{{id}}"> {{title}}</a></li>
+    <div class="gridItem">
+      <a href="/projects/{{id}}"><p id="title">{{title}}</p></a>
+    </div>
   {{/each}}
-</ul>
+</div>

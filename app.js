@@ -197,4 +197,15 @@ app.post("/contact", function (request, response) {
   });
 });
 
+// app.post("/delete-blog/:id", function (request, response) {
+//   const id = request.params.id;
+
+//   const query = `DELETE FROM blogs WHERE id=?`;
+//   const values = [id];
+
+//   database.run(query, values, function (error) {
+//     response.redirect("/blogs");
+//   });
+// });
+
 app.listen(8080);

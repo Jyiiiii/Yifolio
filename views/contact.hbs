@@ -65,15 +65,25 @@ icon by
   </form>
 </section>
 
-<ul>
+<br />
+<br />
+
+<section>
   {{#if contactInfos.length}}
-    {{#each contactInfos}}
-      <div>
-        <p>{{firstName}}{{lastName}}</p>
-        <p>{{email}}</p>
-        <p>{{month}}{{date}}{{year}}</p>
-        <p>{{description}}</p>
-      </div>
-    {{/each}}
+    <div class="contactDisplay">
+      {{#each contactInfos}}
+        <div class="contactItems">
+          <p>NewContact #{{id}}</p>
+          <p>Name: {{firstName}}{{lastName}}</p>
+          <p>Email: {{email}}</p>
+          <p>Project Deadline: {{month}}{{date}}{{year}}</p>
+          <p>Description: {{description}}</p>
+          {{! <form action="/contact" method="post">
+            <input type="submit" value="Delete" />
+          </form> }}
+        </div>
+
+      {{/each}}
+    </div>
   {{/if}}
-</ul>
+</section>
