@@ -1,14 +1,22 @@
 <h1>Create new blogpost</h1>
+{{#if errorMessages.length}}
+  <p>Fail to create new blog because:</p>
+  <ul>
+    {{#each errorMessages}}
+      <li>{{this}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
 
 <form action="" method="post">
   <div>
-    Title:<input type="text" name="title" />
+    Title:<input type="text" name="title" value="{{title}}" />
   </div>
   <div>
-    Date:<input type="text" name="date" />
+    Date:<input type="date" name="date" value="{{date}}" />
   </div>
   <div>
-    Intro:<input type="text" name="intro" />
+    Intro:<input type="text" name="intro" value="{{intro}}" />
   </div>
   <input type="submit" value="Create New Blog" />
 </form>

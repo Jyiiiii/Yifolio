@@ -3,6 +3,8 @@
   <p>{{project.title}}</p>
   <p>{{project.intro}}</p>
 
+  <a href="/update-project/{{project.id}}">Update</a>
+
   <form action="/delete-project/{{project.id}}" method="post">
     <input type="submit" value="Delete" />
   </form>

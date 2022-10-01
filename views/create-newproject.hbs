@@ -1,11 +1,20 @@
 <h1>Create new project</h1>
 
+{{#if errorMessages.length}}
+  <p>Fail to create new project because:</p>
+  <ul>
+    {{#each errorMessages}}
+      <li>{{this}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
+
 <form action="" method="post">
   <div>
-    Title:<input type="text" name="title" />
+    Title:<input type="text" name="title" value="{{title}}" />
   </div>
   <div>
-    Intro:<input type="text" name="intro" />
+    Intro:<input type="text" name="intro" value="{{intro}}" />
   </div>
   <div>
     Pictures:<input type="image" />

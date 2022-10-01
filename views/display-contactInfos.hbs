@@ -1,0 +1,21 @@
+<h3>Messages from new clients:</h3>
+
+<section>
+  {{#if contactInfos}}
+    <div class="contactDisplay">
+      {{#each contactInfos}}
+        <div class="contactItems">
+          <p>NewContact #{{id}}</p>
+          <p>Name: {{firstName}}{{lastName}}</p>
+          <p>Email: {{email}}</p>
+          <p>Project Deadline:{{date}}</p>
+          <p>Description: {{description}}</p>
+          <form action="/delete-contactInfo{{id}}" method="post">
+            <input type="submit" value="Delete" />
+          </form>
+        </div>
+
+      {{/each}}
+    </div>
+  {{/if}}
+</section>

@@ -1,8 +1,10 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
-// const data = require("./data.js");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3");
+
+const titleMaxLength = 80;
+const nameMaxLength = 10;
 
 const database = new sqlite3.Database("Yifolio-database.db");
 
@@ -29,9 +31,7 @@ database.run(`
       firstName TEXT,
       lastName TEXT,
       email TEXT,
-      month INTEGER,
       date INTEGER,
-      year INTEGER,
       description TEXT
     )
 `);
@@ -73,17 +73,92 @@ app.get("/projects/add", function (request, response) {
   response.render("create-newproject.hbs");
 });
 
+function getErrorMessagesForProject(title, intro) {
+  const errorMessages = [];
+
+  if (title == "") {
+    errorMessages.push("Title can't be empty!");
+  } else if (titleMaxLength < title.length) {
+    errorMessages.push(
+      "The max length of title is" + titleMaxLength + "characters long."
+    );
+  }
+
+  if (intro == "") {
+    errorMessages.push("Intro can't be empty!");
+  }
+
+  return errorMessages;
+}
+
 app.post("/projects/add", function (request, response) {
   const title = request.body.title;
   const intro = request.body.intro;
 
-  const query = `INSERT INTO projects (title,intro) VALUES (?,?)`;
+  const errorMessages = getErrorMessagesForProject(title, intro);
 
-  const values = [title, intro];
+  if (errorMessages.length == 0) {
+    const query = `INSERT INTO projects (title,intro) VALUES (?,?)`;
 
-  database.run(query, values, function (error) {
-    response.redirect("/projects");
+    const values = [title, intro];
+
+    database.run(query, values, function (error) {
+      response.redirect("/projects");
+    });
+  } else {
+    const model = {
+      errorMessages,
+      title,
+      intro,
+    };
+
+    response.render("create-newproject.hbs", model);
+  }
+});
+
+app.get("/update-project/:id", function (request, response) {
+  const id = request.params.id;
+
+  const query = `SELECT * FROM projects WHERE id=?`;
+  const values = [id];
+
+  database.get(query, values, function (error, project) {
+    const model = {
+      project,
+      id,
+    };
+
+    response.render("update-project.hbs", model);
   });
+});
+
+app.post("/update-project/:id", function (request, response) {
+  const id = request.params.id;
+  const newTitle = request.body.title;
+  const newIntro = request.body.intro;
+
+  const errorMessages = getErrorMessagesForProject(newTitle, newIntro);
+
+  if (errorMessages.length == 0) {
+    const query = `UPDATE projects SET title=?,intro=? WHERE id=?`;
+
+    const values = [newTitle, newIntro, id];
+
+    database.get(query, values, function (error, project) {
+      response.redirect("/projects" + id);
+    });
+  } else {
+    const model = {
+      project: {
+        title: newTitle,
+        intro: newIntro,
+        id,
+      },
+      errorMessages,
+    };
+
+    response.render("update-project.hbs", model);
+  }
 });
 
 app.post("/delete-project/:id", function (request, response) {
@@ -128,18 +203,53 @@ app.get("/blogs/add", function (request, response) {
   response.render("create-newblog.hbs");
 });
 
+function getErrorMessagesForBlog(title, date, intro) {
+  const errorMessages = [];
+
+  if (title == "") {
+    errorMessages.push("Title can't be empty!");
+  } else if (titleMaxLength < title.length) {
+    errorMessages.push(
+      "The max length of title is" + titleMaxLength + "characters long."
+    );
+  }
+
+  if (date == "") {
+    errorMessages.push("Please choose a date!");
+  }
+
+  if (intro == "") {
+    errorMessages.push("Intro can't be empty!");
+  }
+
+  return errorMessages;
+}
+
 app.post("/blogs/add", function (request, response) {
   const title = request.body.title;
   const date = request.body.date;
   const intro = request.body.intro;
 
-  const query = `INSERT INTO blogs (title,date,intro) VALUES (?,?,?)`;
+  const errorMessages = getErrorMessagesForBlog(title, date, intro);
 
-  const values = [title, date, intro];
+  if (errorMessages.length == 0) {
+    const query = `INSERT INTO blogs (title,date,intro) VALUES (?,?,?)`;
 
-  database.run(query, values, function (error) {
-    response.redirect("/blogs");
-  });
+    const values = [title, date, intro];
+
+    database.run(query, values, function (error) {
+      response.redirect("/blogs");
+    });
+  } else {
+    const model = {
+      errorMessages,
+      title,
+      date,
+      intro,
+    };
+
+    response.render("create-newblog.hbs", model);
+  }
 });
 
 app.post("/delete-blog/:id", function (request, response) {
@@ -169,43 +279,112 @@ app.get("/blogs/:id", function (request, response) {
 });
 
 app.get("/contact", function (request, response) {
+  response.render("contact.hbs");
+});
+
+function getErrorMessagesForContact(
+  firstName,
+  lastName,
+  email,
+  date,
+  description
+) {
+  const errorMessages = [];
+
+  if (firstName == "") {
+    errorMessages.push("Please enter your first name 🥰");
+  } else if (nameMaxLength < firstName.length) {
+    errorMessages.push(
+      "The max length of the first name is" + nameMaxLength + "characters long."
+    );
+  }
+
+  if (lastName == "") {
+    errorMessages.push("Please enter your last name 🥰");
+  } else if (nameMaxLength < lastName.length) {
+    errorMessages.push(
+      "The max length of the last name is" + nameMaxLength + "characters long."
+    );
+  }
+
+  if (email == "") {
+    errorMessages.push("I need your valid email for contacting 🥰");
+  }
+
+  if (date == "") {
+    errorMessages.push("Please choose the date 🥰");
+  }
+
+  if (description == "") {
+    errorMessages.push(
+      "I need a short introduction for the project. Thank you 🥰"
+    );
+  }
+
+  return errorMessages;
+}
+
+app.post("/contact", function (request, response) {
+  const firstName = request.body.firstName;
+  const lastName = request.body.lastName;
+  const email = request.body.email;
+  const date = request.body.date;
+  const description = request.body.description;
+
+  const errorMessages = getErrorMessagesForContact(
+    firstName,
+    lastName,
+    email,
+    date,
+    description
+  );
+
+  if (errorMessages.length == 0) {
+    const query = `INSERT INTO contactInfos (firstName,lastName,email,date,description) VALUES (?,?,?,?,?)`;
+
+    const values = [firstName, lastName, email, date, description];
+
+    database.run(query, values, function (error) {
+      response.redirect("/contact");
+    });
+  } else {
+    const model = {
+      errorMessages,
+      firstName,
+      lastName,
+      email,
+      date,
+      description,
+    };
+
+    response.render("contact.hbs", model);
+  }
+});
+
+app.get("/contactInfos", function (request, response) {
   const query = `SELECT * FROM contactInfos`;
 
   database.all(query, function (error, contactInfos) {
     const model = {
       contactInfos,
     };
-    response.render("contact.hbs", model);
+    response.render("display-contactInfos.hbs", model);
   });
 });
 
-app.post("/contact", function (request, response) {
-  const firstName = request.body.firstName;
-  const lastName = request.body.lastName;
-  const email = request.body.email;
-  const month = request.body.month;
-  const date = request.body.date;
-  const year = request.body.year;
-  const description = request.body.description;
+app.post("/delete-contactInfo:id", function (request, response) {
+  const id = request.params.id;
 
-  const query = `INSERT INTO contactInfos (firstName,lastName,email,month,date,year,description) VALUES (?,?,?,?,?,?,?)`;
-
-  const values = [firstName, lastName, email, month, date, year, description];
+  const query = `DELETE FROM contactInfos WHERE id=?`;
+  const values = [id];
 
   database.run(query, values, function (error) {
-    response.redirect("/contact");
+    response.redirect("/contactInfos");
   });
 });
 
-// app.post("/delete-blog/:id", function (request, response) {
-//   const id = request.params.id;
-
-//   const query = `DELETE FROM blogs WHERE id=?`;
-//   const values = [id];
-
-//   database.run(query, values, function (error) {
-//     response.redirect("/blogs");
-//   });
-// });
+app.get("/login", function (request, response) {
+  response.render("login.hbs");
+});
 
 app.listen(8080);

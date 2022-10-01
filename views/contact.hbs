@@ -24,16 +24,26 @@ icon by
   </div>
 </section>
 
+{{#if errorMessages.length}}
+  <p>Fail to submit your contact infos because:</p>
+  <ul>
+    {{#each errorMessages}}
+      <li>{{this}}</li>
+    {{/each}}
+  </ul>
+{{/if}}
+
 <section>
   <form action="" method="post" id="contactForm">
     <div class="form-group">
-      <p class="form-label" for="input-example-1">Name</p>
+      <label class="form-label" for="input-example-1">Name</label>
       <input
         class="form-input"
         type="text"
         id="input-example-1"
         placeholder="First Name"
         name="firstName"
+        value="{{firstName}}"
       />
       <input
         class="form-input"
@@ -41,34 +51,41 @@ icon by
         id="input-example-1"
         placeholder="Last Name"
         name="lastName"
+        value="{{lastName}}"
       />
     </div>
     <div>
-      <p>Email</p>
-      <input type="email" placeholder="Your Email" name="email" />
-    </div>
-    <div>
-      <p>Project Deadline</p>
-      <input type="month" placeholder="MM" name="month" />
-      <input type="date" placeholder="DD" name="date" />
-      <input type="year" placeholder="YY" name="year" />
-    </div>
-    <div>
-      <p>Description</p>
+      <label class="form-label" for="input-example-1">Email</label>
       <input
-        type="text"
-        placeholder="Short Description..."
-        name="description"
+        class="form-input"
+        type="email"
+        id="input-example-1"
+        placeholder="Your Email"
+        name="email"
+        value="{{email}}"
       />
+    </div>
+    <div>
+      <label class="form-label" for="input-example-1">Project Deadline</label>
+      {{! <input type="month" placeholder="MM" name="month" /> }}
+      <input type="date" placeholder="Date" name="date" />
+      {{! <input type="number" placeholder="YY" name="year" /> }}
+    </div>
+    <div>
+      <label class="form-label" for="input-example-3">Description</label>
+      <textarea
+        class="form-input"
+        id="input-example-3"
+        placeholder="Short Description..."
+        rows="3"
+        name="description"
+      ></textarea>
     </div>
     <input type="submit" value="SEND" />
   </form>
 </section>
 
-<br />
-<br />
-
-<section>
+{{!-- <section>
   {{#if contactInfos.length}}
     <div class="contactDisplay">
       {{#each contactInfos}}
@@ -78,12 +95,12 @@ icon by
           <p>Email: {{email}}</p>
           <p>Project Deadline: {{month}}{{date}}{{year}}</p>
           <p>Description: {{description}}</p>
-          {{! <form action="/contact" method="post">
+          <form action="/contact" method="post">
             <input type="submit" value="Delete" />
-          </form> }}
+          </form>
         </div>
 
       {{/each}}
     </div>
   {{/if}}
-</section>
+</section> --}}
