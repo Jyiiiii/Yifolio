@@ -28,14 +28,23 @@
   <body>
     <header>
       <a id="siteLogo" href="/">YI JIANG</a>
-      <nav id="navAbove">
+      <nav class="navAbove">
         <a href="/projects">Projects</a>
         <a href="/blogs">Blogs</a>
         <a href="/contact">Contact</a>
-        <a href="/projects/add">AddProjects</a>
-        <a href="/blogs/add">AddBlogs</a>
-        <a href="/contactInfos">ContactInfos</a>
-        <a href="/login">Login</a>
+        {{#if isLoggedIn}}
+          <a href="/create-newproject">AddProjects</a>
+          <a href="/create-newblog">AddBlogs</a>
+          <a href="/contactInfos">ContactInfos</a>
+        {{/if}}
+        {{#unless isLoggedIn}}
+          <a id="login" href="/login">Login</a>
+        {{/unless}}
+        {{#if isLoggedIn}}
+          <form id="login" action="/logout" method="post">
+            <input type="submit" value="Logout" />
+          </form>
+        {{/if}}
       </nav>
     </header>
 

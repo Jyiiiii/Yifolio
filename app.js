@@ -2,6 +2,8 @@ const express = require("express");
 const expressHandlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3");
+const expressSession = require("express-session");
+const SQLiteStore = require("connect-sqlite3")(expressSession);
 
 const titleMaxLength = 80;
 const nameMaxLength = 10;
@@ -38,6 +40,18 @@ database.run(`
 
 const app = express();
 
+app.use(
+  expressSession({
+    secret: "bahbhbhdck",
+    saveUninitialized: false,
+    resave: false,
+    store: new SQLiteStore(),
+  })
+);
+
+const adminUsername = "itzYi";
+const adminPassword = "1111";
+
 app.engine(
   "hbs",
   expressHandlebars.engine({
@@ -52,6 +66,14 @@ app.use(
     extended: false,
   })
 );
+
+app.use(function (request, response, next) {
+  const isLoggedIn = request.session.isLoggedIn;
+
+  response.locals.isLoggedIn = isLoggedIn;
+
+  next();
+});
 
 app.get("/", function (request, response) {
   response.render("start.hbs");
@@ -69,8 +91,12 @@ app.get("/projects", function (request, response) {
   });
 });
 
-app.get("/projects/add", function (request, response) {
-  response.render("create-newproject.hbs");
+app.get("/create-newproject", function (request, response) {
+  if (request.session.isLoggedIn) {
+    response.render("create-newproject.hbs");
+  } else {
+    response.redirect("/login");
+  }
 });
 
 function getErrorMessagesForProject(title, intro) {
@@ -91,7 +117,7 @@ function getErrorMessagesForProject(title, intro) {
   return errorMessages;
 }
 
-app.post("/projects/add", function (request, response) {
+app.post("/create-newproject", function (request, response) {
   const title = request.body.title;
   const intro = request.body.intro;
 
@@ -199,8 +225,12 @@ app.get("/blogs", function (request, response) {
   });
 });
 
-app.get("/blogs/add", function (request, response) {
-  response.render("create-newblog.hbs");
+app.get("/create-newblog", function (request, response) {
+  if (request.session.isLoggedIn) {
+    response.render("create-newblog.hbs");
+  } else {
+    response.redirect("/login");
+  }
 });
 
 function getErrorMessagesForBlog(title, date, intro) {
@@ -225,7 +255,7 @@ function getErrorMessagesForBlog(title, date, intro) {
   return errorMessages;
 }
 
-app.post("/blogs/add", function (request, response) {
+app.post("/create-newblog", function (request, response) {
   const title = request.body.title;
   const date = request.body.date;
   const intro = request.body.intro;
@@ -368,7 +398,11 @@ app.get("/contactInfos", function (request, response) {
     const model = {
       contactInfos,
     };
-    response.render("display-contactInfos.hbs", model);
+    if (request.session.isLoggedIn) {
+      response.render("display-contactInfos.hbs", model);
+    } else {
+      response.redirect("/login");
+    }
   });
 });
 
@@ -385,6 +419,30 @@ app.post("/delete-contactInfo:id", function (request, response) {
 
 app.get("/login", function (request, response) {
   response.render("login.hbs");
+});
+
+app.post("/login", function (request, response) {
+  const enteredUsername = request.body.username;
+  const enteredPassword = request.body.password;
+
+  const invalidAccount = [];
+
+  if (enteredUsername != adminUsername && enteredPassword != adminPassword) {
+    invalidAccount.push("It is a invalid account!");
+  }
+
+  if (invalidAccount.length == 0) {
+    request.session.isLoggedIn = true;
+    response.redirect("/");
+  } else {
+    const model = { invalidAccount };
+    response.render("login.hbs", model);
+  }
+});
+
+app.post("/logout", function (request, response) {
+  request.session.isLoggedIn = false;
+  response.redirect("/");
 });
 
 app.listen(8080);

@@ -45,15 +45,30 @@ a {
   color: var(--text_color);
 }
 
-#navAbove {
+.navAbove {
+  display: flex;
   margin-left: 150px;
   margin-top: -25px;
 }
 
-#navAbove a {
+.navAbove a {
   font-size: 18px;
   font-weight: 300;
   margin-left: 10px;
+  color: var(--text_color);
+}
+
+#login {
+  position: absolute;
+  margin-left: 80%;
+}
+
+#login input {
+  border: none;
+  background: none;
+  font-family: var(--title_font);
+  font-size: 18px;
+  font-weight: 300;
   color: var(--text_color);
 }
 
@@ -71,14 +86,33 @@ hr {
 }
 
 /* detailPages */
+
 #intro {
   font-family: var(--title_font);
   font-weight: 100;
   font-size: 50px;
-  width: 50%;
+  width: 60%;
+}
+/*project and blog page*/
+.portfolioDisplay {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 60px;
+  grid-row-gap: 20px;
+  padding: 17px;
 }
 
-#contactForm {
+.gridItem {
+  background-color: rgb(228, 228, 228);
+}
+
+#title {
+  font-size: 24px;
+  color: var(--text_color);
+  font-weight: 100;
+}
+/*contact page*/
+.contactForm {
   margin-left: 50%;
   margin-top: -150px;
 }
@@ -101,24 +135,16 @@ hr {
   text-decoration: underline;
 }
 
-.portfolioDisplay {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 60px;
-  grid-row-gap: 20px;
-  padding: 17px;
+.nameGroup {
+  display: flex;
 }
 
-.gridItem {
-  background-color: rgb(228, 228, 228);
+.nameGroup input {
+  margin: 5px;
+  border: 1px solid silver;
+  padding: 5px;
 }
-
-#title {
-  font-size: 24px;
-  color: var(--text_color);
-  font-weight: 100;
-}
-
+/*contactInfos page*/
 .contactDisplay {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -127,7 +153,49 @@ hr {
   padding: 17px;
 }
 
-.contactItems {
+#contactItems {
   background-color: white;
   border: 1px solid var(--text_color);
+}
+/*creating & login*/
+.formBox {
+  margin-left: 35%;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  width: 400px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid var(--text_color);
+  border-radius: 10px;
+  font-family: var(--text_font);
+}
+
+.formBox h4 {
+  text-align: center;
+  padding: 20px 0 10px 0;
+  border-bottom: 1px solid silver;
+}
+
+.formBox form {
+  padding: 0 40px;
+}
+
+.textField {
+  position: relative;
+  border-bottom: 1px solid var(--text_color);
+  margin: 30px 0;
+}
+
+.textField input {
+  width: 100%;
+  padding: 0 5px;
+  height: 30px;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.formBox input[type="submit"] {
+  border: 2px solid;
+  background-color: white;
 }

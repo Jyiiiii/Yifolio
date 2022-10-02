@@ -34,25 +34,23 @@ icon by
 {{/if}}
 
 <section>
-  <form action="" method="post" id="contactForm">
-    <div class="form-group">
+  <form action="" method="post" class="contactForm">
+    <div>
       <label class="form-label" for="input-example-1">Name</label>
-      <input
-        class="form-input"
-        type="text"
-        id="input-example-1"
-        placeholder="First Name"
-        name="firstName"
-        value="{{firstName}}"
-      />
-      <input
-        class="form-input"
-        type="text"
-        id="input-example-1"
-        placeholder="Last Name"
-        name="lastName"
-        value="{{lastName}}"
-      />
+      <div class="nameGroup">
+        <input
+          type="text"
+          placeholder="First Name"
+          name="firstName"
+          value="{{firstName}}"
+        />
+        <input
+          type="text"
+          placeholder="Last Name"
+          name="lastName"
+          value="{{lastName}}"
+        />
+      </div>
     </div>
     <div>
       <label class="form-label" for="input-example-1">Email</label>
@@ -60,16 +58,13 @@ icon by
         class="form-input"
         type="email"
         id="input-example-1"
-        placeholder="Your Email"
         name="email"
         value="{{email}}"
       />
     </div>
     <div>
       <label class="form-label" for="input-example-1">Project Deadline</label>
-      {{! <input type="month" placeholder="MM" name="month" /> }}
       <input type="date" placeholder="Date" name="date" />
-      {{! <input type="number" placeholder="YY" name="year" /> }}
     </div>
     <div>
       <label class="form-label" for="input-example-3">Description</label>
@@ -81,26 +76,7 @@ icon by
         name="description"
       ></textarea>
     </div>
+    <br />
     <input type="submit" value="SEND" />
   </form>
 </section>
-
-{{!-- <section>
-  {{#if contactInfos.length}}
-    <div class="contactDisplay">
-      {{#each contactInfos}}
-        <div class="contactItems">
-          <p>NewContact #{{id}}</p>
-          <p>Name: {{firstName}}{{lastName}}</p>
-          <p>Email: {{email}}</p>
-          <p>Project Deadline: {{month}}{{date}}{{year}}</p>
-          <p>Description: {{description}}</p>
-          <form action="/contact" method="post">
-            <input type="submit" value="Delete" />
-          </form>
-        </div>
-
-      {{/each}}
-    </div>
-  {{/if}}
-</section> --}}
