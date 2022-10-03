@@ -199,3 +199,9 @@ hr {
   border: 2px solid;
   background-color: white;
 }
+
+.editButton {
+  border: 2px solid;
+  background-color: white;
+  margin-left: var(--padding_left);
+}

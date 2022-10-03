@@ -1,0 +1,24 @@
+<section class="formBox">
+  <h4>Update the blog</h4>
+  {{#if errorMessages.length}}
+    <p>Fail to update the blog because:</p>
+    <ul>
+      {{#each errorMessages}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <form action="" method="post">
+    <div class="textField">
+      Title:<input type="text" name="title" value="{{blog.title}}" />
+    </div>
+    <div class="textField">
+      Date:<input type="date" name="date" value="{{blog.date}}" />
+    </div>
+    <div class="textField">
+      Intro:<input type="text" name="intro" value="{{blog.intro}}" />
+    </div>
+    <input type="submit" value="Create New Blog" />
+  </form>
+</section>

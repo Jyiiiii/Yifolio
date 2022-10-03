@@ -3,11 +3,16 @@
   <p>{{project.title}}</p>
   <p>{{project.intro}}</p>
 
-  <a href="/update-project/{{project.id}}">Update</a>
+  {{#if isLoggedIn}}
+    <form action="/update-project/{{project.id}}">
+      <input class="editButton" type="submit" value="Update" />
+    </form>
 
-  <form action="/delete-project/{{project.id}}" method="post">
-    <input type="submit" value="Delete" />
-  </form>
+    <form action="/delete-project/{{project.id}}" method="post">
+      <input class="editButton" type="submit" value="Delete" />
+    </form>
+  {{/if}}
+
 {{else}}
   <p>I have not got this project yet.🤪</p>
 {{/if}}

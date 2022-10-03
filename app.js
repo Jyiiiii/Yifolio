@@ -151,7 +151,6 @@ app.get("/update-project/:id", function (request, response) {
   database.get(query, values, function (error, project) {
     const model = {
       project,
-      id,
     };
 
     response.render("update-project.hbs", model);
@@ -170,20 +169,23 @@ app.post("/update-project/:id", function (request, response) {
 
     const values = [newTitle, newIntro, id];
 
-    database.get(query, values, function (error, project) {
-      response.redirect("/projects" + id);
+    database.run(query, values, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        response.redirect("/projects/" + id);
+      }
     });
   } else {
     const model = {
       project: {
         title: newTitle,
         intro: newIntro,
-        id,
       },
       errorMessages,
     };
 
-    response.render("update-project.hbs", model);
+    response.redirect("/update-project/:id", model);
   }
 });
 
@@ -279,6 +281,55 @@ app.post("/create-newblog", function (request, response) {
     };
 
     response.render("create-newblog.hbs", model);
+  }
+});
+
+app.get("/update-blog/:id", function (request, response) {
+  const id = request.params.id;
+
+  const query = `SELECT * FROM blogs WHERE id=?`;
+  const values = [id];
+
+  database.get(query, values, function (error, blog) {
+    const model = {
+      blog,
+    };
+
+    response.render("update-blog.hbs", model);
+  });
+});
+
+app.post("/update-blog/:id", function (request, response) {
+  const id = request.params.id;
+  const newTitle = request.body.title;
+  const newDate = request.body.date;
+  const newIntro = request.body.intro;
+
+  const errorMessages = getErrorMessagesForBlog(newTitle, newDate, newIntro);
+
+  if (errorMessages.length == 0) {
+    const query = `UPDATE blogs SET title=?,date=?,intro=? WHERE id=?`;
+
+    const values = [newTitle, newDate, newIntro, id];
+
+    database.run(query, values, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        response.redirect("/blogs/" + id);
+      }
+    });
+  } else {
+    const model = {
+      blog: {
+        title: newTitle,
+        date: newDate,
+        intro: newIntro,
+      },
+      errorMessages,
+    };
+
+    response.redirect("/update-blogs/:id", model);
   }
 });
 
