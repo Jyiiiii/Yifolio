@@ -79,6 +79,7 @@ app.get("/", function (request, response) {
   response.render("start.hbs");
 });
 
+//pages about projects
 app.get("/projects", function (request, response) {
   const query = `SELECT * FROM projects`;
 
@@ -178,14 +179,14 @@ app.post("/update-project/:id", function (request, response) {
     });
   } else {
     const model = {
+      errorMessages,
       project: {
         title: newTitle,
         intro: newIntro,
       },
-      errorMessages,
     };
 
-    response.redirect("/update-project/:id", model);
+    response.render("update-project.hbs", model);
   }
 });
 
@@ -200,6 +201,7 @@ app.post("/delete-project/:id", function (request, response) {
   });
 });
 
+//detail page for each project
 app.get("/projects/:id", function (request, response) {
   const id = request.params.id;
 
@@ -215,6 +217,23 @@ app.get("/projects/:id", function (request, response) {
   });
 });
 
+//search function for projects
+app.get("/projects-search", function (request, response) {
+  const searchValue = request.query.searchValue;
+
+  const query = `SELECT * FROM projects WHERE title LIKE ? OR intro LIKE ?`;
+  const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+
+  database.all(query, values, function (error, projects) {
+    const model = {
+      searchValue,
+      projects,
+    };
+
+    response.render("projects.hbs", model);
+  });
+});
+
 app.get("/blogs", function (request, response) {
   const query = `SELECT * FROM blogs`;
 
@@ -227,6 +246,7 @@ app.get("/blogs", function (request, response) {
   });
 });
 
+//pages for blogs
 app.get("/create-newblog", function (request, response) {
   if (request.session.isLoggedIn) {
     response.render("create-newblog.hbs");
@@ -329,7 +349,7 @@ app.post("/update-blog/:id", function (request, response) {
       errorMessages,
     };
 
-    response.redirect("/update-blogs/:id", model);
+    response.render("update-blog.hbs", model);
   }
 });
 
@@ -344,6 +364,7 @@ app.post("/delete-blog/:id", function (request, response) {
   });
 });
 
+//detail page for each blog
 app.get("/blogs/:id", function (request, response) {
   const id = request.params.id;
 
@@ -359,6 +380,24 @@ app.get("/blogs/:id", function (request, response) {
   });
 });
 
+//search function for blogs
+app.get("/blogs-search", function (request, response) {
+  const searchValue = request.query.searchValue;
+
+  const query = `SELECT * FROM blogs WHERE title LIKE ? OR date LIKE ?`;
+  const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+
+  database.all(query, values, function (error, blogs) {
+    const model = {
+      searchValue,
+      blogs,
+    };
+
+    response.render("blogs.hbs", model);
+  });
+});
+
+//contact page
 app.get("/contact", function (request, response) {
   response.render("contact.hbs");
 });
@@ -442,6 +481,7 @@ app.post("/contact", function (request, response) {
   }
 });
 
+//display contact informations
 app.get("/contactInfos", function (request, response) {
   const query = `SELECT * FROM contactInfos`;
 
@@ -457,6 +497,27 @@ app.get("/contactInfos", function (request, response) {
   });
 });
 
+app.get("/contactInfos-search", function (request, response) {
+  const searchValue = request.query.searchValue;
+
+  const query = `SELECT * FROM contactInfos WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ? OR date LIKE ? `;
+  const values = [
+    "%" + searchValue + "%",
+    "%" + searchValue + "%",
+    "%" + searchValue + "%",
+    "%" + searchValue + "%",
+  ];
+
+  database.all(query, values, function (error, contactInfos) {
+    const model = {
+      searchValue,
+      contactInfos,
+    };
+
+    response.render("display-contactInfos.hbs", model);
+  });
+});
+
 app.post("/delete-contactInfo:id", function (request, response) {
   const id = request.params.id;
 
@@ -468,6 +529,7 @@ app.post("/delete-contactInfo:id", function (request, response) {
   });
 });
 
+//login page
 app.get("/login", function (request, response) {
   response.render("login.hbs");
 });
@@ -491,6 +553,7 @@ app.post("/login", function (request, response) {
   }
 });
 
+//when the admin is loggedin the link become logout
 app.post("/logout", function (request, response) {
   request.session.isLoggedIn = false;
   response.redirect("/");

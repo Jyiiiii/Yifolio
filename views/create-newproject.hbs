@@ -1,21 +1,23 @@
 <section class="formBox">
   <h4>Create new project</h4>
 
-  {{#if errorMessages.length}}
-    <p>Fail to create new project because:</p>
-    <ul>
-      {{#each errorMessages}}
-        <li>{{this}}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
+  <div class="errorMessagesForElse">
+    {{#if errorMessages.length}}
+      <p>Fail to create new project because:</p>
+      <ul>
+        {{#each errorMessages}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
 
   <form action="" method="post">
     <div class="textField">
-      Title:<input type="text" name="title" value="{{title}}" />
+      Title:<input type="text" name="title" value="{{{title}}}" />
     </div>
     <div class="textField">
-      Intro:<input type="text" name="intro" value="{{intro}}" />
+      Intro:<input type="text" name="intro" value="{{{intro}}}" />
     </div>
     <div class="textField">
       Pictures:<input type="image" />

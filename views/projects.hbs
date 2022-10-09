@@ -1,6 +1,18 @@
 <h1>My projects</h1>
 <p>These are my works.</p>
 
+<div>
+  <form action="/projects-search" method="get">
+    <input
+      type="text"
+      placeholder="Search..."
+      name="searchValue"
+      value="{{searchValue}}"
+    />
+    <input type="submit" value="🔍" />
+  </form>
+</div>
+
 <div class="portfolioDisplay">
   {{#each projects}}
     <div class="gridItem">

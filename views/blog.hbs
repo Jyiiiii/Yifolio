@@ -5,7 +5,7 @@
   <p>{{blog.intro}}</p>
 
   {{#if isLoggedIn}}
-    <form action="/update-blog/{{blog.id}}">
+    <form action="/update-blog/{{blog.id}}" method="get">
       <input class="editButton" type="submit" value="Update" />
     </form>
 

@@ -1,10 +1,22 @@
 <h3>Messages from new clients:</h3>
 
+<div>
+  <form action="/contactInfos-search" method="get">
+    <input
+      type="text"
+      placeholder="Search..."
+      name="searchValue"
+      value="{{searchValue}}"
+    />
+    <input type="submit" value="🔍" />
+  </form>
+</div>
+
 <section>
   {{#if contactInfos}}
     <div class="contactDisplay">
       {{#each contactInfos}}
-        <div id="contactItems">
+        <div class="contactItems">
           <p>NewContact #{{id}}</p>
           <p>Name: {{firstName}}{{lastName}}</p>
           <p>Email: {{email}}</p>

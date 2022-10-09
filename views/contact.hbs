@@ -24,14 +24,16 @@ icon by
   </div>
 </section>
 
-{{#if errorMessages.length}}
-  <p>Fail to submit your contact infos because:</p>
-  <ul>
-    {{#each errorMessages}}
-      <li>{{this}}</li>
-    {{/each}}
-  </ul>
-{{/if}}
+<div class="errorMessagesForContact">
+  {{#if errorMessages.length}}
+    <p>Fail to submit your contact infos because:</p>
+    <ul>
+      {{#each errorMessages}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  {{/if}}
+</div>
 
 <section>
   <form action="" method="post" class="contactForm">
