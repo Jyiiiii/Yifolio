@@ -2,7 +2,7 @@
 <p>Record my life.</p>
 
 <div>
-  <form action="/blogs-search" method="get">
+  <form action="/blogs-search" method="get" id="searchbar">
     <input
       type="text"
       placeholder="Search..."
@@ -11,6 +11,14 @@
     />
     <input type="submit" value="🔍" />
   </form>
+</div>
+
+<div class="errorMessagesForSearch">
+  {{#if errorMessages.length}}
+    {{#each errorMessages}}
+      <p>{{this}}</p>
+    {{/each}}
+  {{/if}}
 </div>
 
 <div class="portfolioDisplay">

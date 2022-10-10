@@ -221,19 +221,38 @@ app.get("/projects/:id", function (request, response) {
 app.get("/projects-search", function (request, response) {
   const searchValue = request.query.searchValue;
 
-  const query = `SELECT * FROM projects WHERE title LIKE ? OR intro LIKE ?`;
-  const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+  const errorMessages = [];
 
-  database.all(query, values, function (error, projects) {
+  if (searchValue == "") {
+    errorMessages.push("Searchbar cannot be empty!");
+  }
+
+  if (errorMessages.length == 0) {
+    const query = `SELECT * FROM projects WHERE title LIKE ? OR intro LIKE ?`;
+    const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+
+    database.all(query, values, function (error, projects) {
+      if (error) {
+        console.log("Internal server error!Related to search function!");
+      } else {
+        const model = {
+          searchValue,
+          projects,
+        };
+        response.render("projects.hbs", model);
+      }
+    });
+  } else {
     const model = {
+      errorMessages,
       searchValue,
-      projects,
     };
 
     response.render("projects.hbs", model);
-  });
+  }
 });
 
+//pages for blogs
 app.get("/blogs", function (request, response) {
   const query = `SELECT * FROM blogs`;
 
@@ -246,7 +265,6 @@ app.get("/blogs", function (request, response) {
   });
 });
 
-//pages for blogs
 app.get("/create-newblog", function (request, response) {
   if (request.session.isLoggedIn) {
     response.render("create-newblog.hbs");
@@ -384,17 +402,36 @@ app.get("/blogs/:id", function (request, response) {
 app.get("/blogs-search", function (request, response) {
   const searchValue = request.query.searchValue;
 
-  const query = `SELECT * FROM blogs WHERE title LIKE ? OR date LIKE ?`;
-  const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+  const errorMessages = [];
 
-  database.all(query, values, function (error, blogs) {
+  if (searchValue == "") {
+    errorMessages.push("Searchbar cannot be empty!");
+  }
+
+  if (errorMessages.length == 0) {
+    const query = `SELECT * FROM blogs WHERE title LIKE ? OR date LIKE ?`;
+    const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
+
+    database.all(query, values, function (error, blogs) {
+      if (error) {
+        console.log("Internal server error!Related to search function!");
+      } else {
+        const model = {
+          searchValue,
+          blogs,
+        };
+
+        response.render("blogs.hbs", model);
+      }
+    });
+  } else {
     const model = {
+      errorMessages,
       searchValue,
-      blogs,
     };
 
     response.render("blogs.hbs", model);
-  });
+  }
 });
 
 //contact page
@@ -500,22 +537,41 @@ app.get("/contactInfos", function (request, response) {
 app.get("/contactInfos-search", function (request, response) {
   const searchValue = request.query.searchValue;
 
-  const query = `SELECT * FROM contactInfos WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ? OR date LIKE ? `;
-  const values = [
-    "%" + searchValue + "%",
-    "%" + searchValue + "%",
-    "%" + searchValue + "%",
-    "%" + searchValue + "%",
-  ];
+  const errorMessages = [];
 
-  database.all(query, values, function (error, contactInfos) {
+  if (searchValue == "") {
+    errorMessages.push("Searchbar cannot be empty!");
+  }
+
+  if (errorMessages.length == 0) {
+    const query = `SELECT * FROM contactInfos WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ? OR date LIKE ? `;
+    const values = [
+      "%" + searchValue + "%",
+      "%" + searchValue + "%",
+      "%" + searchValue + "%",
+      "%" + searchValue + "%",
+    ];
+
+    database.all(query, values, function (error, contactInfos) {
+      if (error) {
+        console.log("Internal server error!Related to search function!");
+      } else {
+        const model = {
+          searchValue,
+          contactInfos,
+        };
+
+        response.render("display-contactInfos.hbs", model);
+      }
+    });
+  } else {
     const model = {
+      errorMessages,
       searchValue,
-      contactInfos,
     };
 
     response.render("display-contactInfos.hbs", model);
-  });
+  }
 });
 
 app.post("/delete-contactInfo:id", function (request, response) {

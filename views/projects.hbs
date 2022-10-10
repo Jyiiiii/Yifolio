@@ -2,7 +2,7 @@
 <p>These are my works.</p>
 
 <div>
-  <form action="/projects-search" method="get">
+  <form action="/projects-search" method="get" id="searchBar">
     <input
       type="text"
       placeholder="Search..."
@@ -11,6 +11,14 @@
     />
     <input type="submit" value="🔍" />
   </form>
+</div>
+
+<div class="errorMessagesForSearch">
+  {{#if errorMessages.length}}
+    {{#each errorMessages}}
+      <p>{{this}}</p>
+    {{/each}}
+  {{/if}}
 </div>
 
 <div class="portfolioDisplay">

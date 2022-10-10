@@ -1,7 +1,7 @@
-<h3>Messages from new clients:</h3>
+<h4>📬Messages from new clients:</h4>
 
 <div>
-  <form action="/contactInfos-search" method="get">
+  <form action="/contactInfos-search" method="get" id="searchbar">
     <input
       type="text"
       placeholder="Search..."
@@ -10,6 +10,14 @@
     />
     <input type="submit" value="🔍" />
   </form>
+</div>
+
+<div class="errorMessagesForSearch">
+  {{#if errorMessages.length}}
+    {{#each errorMessages}}
+      <p>{{this}}</p>
+    {{/each}}
+  {{/if}}
 </div>
 
 <section>

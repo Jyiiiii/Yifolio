@@ -1,6 +1,6 @@
 :root {
   --text_color: rgb(47, 47, 47);
-  --padding_left: 17px;
+  --padding_left: 25px;
   --title_font: ivypresto-display, serif;
   --text_font: "Montserrat", sans-serif;
 }
@@ -22,6 +22,12 @@ a {
   font-family: var(--title_font);
   text-decoration: none;
   color: var(--text_color);
+}
+
+h4 {
+  padding-left: var(--padding_left);
+  font-family: var(--title_font);
+  font-weight: 200;
 }
 
 /* header */
@@ -59,8 +65,8 @@ a {
 }
 
 #login {
-  position: absolute;
-  margin-left: 80%;
+  position: relative;
+  margin-left: 75%;
 }
 
 #login input {
@@ -85,6 +91,22 @@ hr {
   padding-left: var(--padding_left);
 }
 
+/* searchbar*/
+#searchbar {
+  margin-top: -2%;
+  margin-left: 77%;
+}
+
+#searchbar input {
+  font-family: var(--text_font);
+  border: 1px solid;
+}
+
+.errorMessagesForSearch {
+  margin-left: 75%;
+  color: rgb(234, 81, 76);
+}
+
 /* detailPages */
 
 #intro {
@@ -92,6 +114,12 @@ hr {
   font-weight: 100;
   font-size: 50px;
   width: 60%;
+  margin-top: 2%;
+}
+
+#selfie {
+  margin-left: 70%;
+  margin-bottom: 10%;
 }
 /*project and blog page*/
 .portfolioDisplay {
@@ -130,8 +158,12 @@ hr {
 }
 
 #emailLink a {
-  padding: var(--padding_left);
+  margin-left: var(--padding_left);
   text-decoration: underline;
+}
+
+#socialLinks img {
+  margin-left: var(--padding_left);
 }
 
 .nameGroup {
@@ -143,6 +175,16 @@ hr {
   border: 1px solid silver;
   padding: 5px;
 }
+
+.contactForm {
+  margin-right: 10%;
+}
+
+.contactForm input[type="submit"] {
+  border: 2px solid;
+  background-color: white;
+}
+
 /*contactInfos page*/
 .contactDisplay {
   display: grid;
