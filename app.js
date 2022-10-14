@@ -4,11 +4,24 @@ const bodyParser = require("body-parser");
 const sqlite3 = require("sqlite3");
 const expressSession = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(expressSession);
+const multer = require("multer");
+const path = require("path");
 
 const titleMaxLength = 80;
 const nameMaxLength = 10;
 
 const database = new sqlite3.Database("Yifolio-database.db");
+
+//for upload the files
+const storage = multer.diskStorage({
+  destination: (request, file, callback) => {
+    callback(null, "public/uploadedImages");
+  },
+  filename: (request, file, callback) => {
+    callback(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage: storage });
 
 database.run(`
   CREATE TABLE IF NOT EXISTS projects(
@@ -118,30 +131,39 @@ function getErrorMessagesForProject(title, intro) {
   return errorMessages;
 }
 
-app.post("/create-newproject", function (request, response) {
-  const title = request.body.title;
-  const intro = request.body.intro;
+app.post(
+  "/create-newproject",
+  upload.single("image"),
+  function (request, response) {
+    const title = request.body.title;
+    const intro = request.body.intro;
 
-  const errorMessages = getErrorMessagesForProject(title, intro);
+    const errorMessages = getErrorMessagesForProject(title, intro);
 
-  if (errorMessages.length == 0) {
-    const query = `INSERT INTO projects (title,intro) VALUES (?,?)`;
+    if (errorMessages.length == 0) {
+      const imgURL = request.file.filename;
+      const query = `INSERT INTO projects (title,intro,imgURL) VALUES (?,?,?)`;
 
-    const values = [title, intro];
+      const values = [title, intro, imgURL];
 
-    database.run(query, values, function (error) {
-      response.redirect("/projects");
-    });
-  } else {
-    const model = {
-      errorMessages,
-      title,
-      intro,
-    };
+      database.run(query, values, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          response.redirect("/projects");
+        }
+      });
+    } else {
+      const model = {
+        errorMessages,
+        title,
+        intro,
+      };
 
-    response.render("create-newproject.hbs", model);
+      response.render("create-newproject.hbs", model);
+    }
   }
-});
+);
 
 app.get("/update-project/:id", function (request, response) {
   const id = request.params.id;
@@ -158,37 +180,42 @@ app.get("/update-project/:id", function (request, response) {
   });
 });
 
-app.post("/update-project/:id", function (request, response) {
-  const id = request.params.id;
-  const newTitle = request.body.title;
-  const newIntro = request.body.intro;
+app.post(
+  "/update-project/:id",
+  upload.single("image"),
+  function (request, response) {
+    const id = request.params.id;
+    const newTitle = request.body.title;
+    const newIntro = request.body.intro;
 
-  const errorMessages = getErrorMessagesForProject(newTitle, newIntro);
+    const errorMessages = getErrorMessagesForProject(newTitle, newIntro);
 
-  if (errorMessages.length == 0) {
-    const query = `UPDATE projects SET title=?,intro=? WHERE id=?`;
+    if (errorMessages.length == 0) {
+      const newimgURL = request.file.filename;
+      const query = `UPDATE projects SET title=?,intro=?,imgURL=? WHERE id=?`;
 
-    const values = [newTitle, newIntro, id];
+      const values = [newTitle, newIntro, newimgURL, id];
 
-    database.run(query, values, function (error) {
-      if (error) {
-        console.log(error);
-      } else {
-        response.redirect("/projects/" + id);
-      }
-    });
-  } else {
-    const model = {
-      errorMessages,
-      project: {
-        title: newTitle,
-        intro: newIntro,
-      },
-    };
+      database.run(query, values, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          response.redirect("/projects/" + id);
+        }
+      });
+    } else {
+      const model = {
+        errorMessages,
+        project: {
+          title: newTitle,
+          intro: newIntro,
+        },
+      };
 
-    response.render("update-project.hbs", model);
+      response.render("update-project.hbs", model);
+    }
   }
-});
+);
 
 app.post("/delete-project/:id", function (request, response) {
   const id = request.params.id;
@@ -243,15 +270,18 @@ app.get("/projects-search", function (request, response) {
       }
     });
   } else {
-    const model = {
-      errorMessages,
-      searchValue,
-    };
+    const query = `SELECT * FROM projects`;
 
-    response.render("projects.hbs", model);
+    database.all(query, function (error, projects) {
+      const model = {
+        errorMessages,
+        projects,
+      };
+
+      response.render("projects.hbs", model);
+    });
   }
 });
-
 //pages for blogs
 app.get("/blogs", function (request, response) {
   const query = `SELECT * FROM blogs`;
@@ -295,32 +325,41 @@ function getErrorMessagesForBlog(title, date, intro) {
   return errorMessages;
 }
 
-app.post("/create-newblog", function (request, response) {
-  const title = request.body.title;
-  const date = request.body.date;
-  const intro = request.body.intro;
+app.post(
+  "/create-newblog",
+  upload.single("image"),
+  function (request, response) {
+    const title = request.body.title;
+    const date = request.body.date;
+    const intro = request.body.intro;
 
-  const errorMessages = getErrorMessagesForBlog(title, date, intro);
+    const errorMessages = getErrorMessagesForBlog(title, date, intro);
 
-  if (errorMessages.length == 0) {
-    const query = `INSERT INTO blogs (title,date,intro) VALUES (?,?,?)`;
+    if (errorMessages.length == 0) {
+      const imgURL = request.file.filename;
+      const query = `INSERT INTO blogs (title,date,intro,imgURL) VALUES (?,?,?,?)`;
 
-    const values = [title, date, intro];
+      const values = [title, date, intro, imgURL];
 
-    database.run(query, values, function (error) {
-      response.redirect("/blogs");
-    });
-  } else {
-    const model = {
-      errorMessages,
-      title,
-      date,
-      intro,
-    };
+      database.run(query, values, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          response.redirect("/blogs");
+        }
+      });
+    } else {
+      const model = {
+        errorMessages,
+        title,
+        date,
+        intro,
+      };
 
-    response.render("create-newblog.hbs", model);
+      response.render("create-newblog.hbs", model);
+    }
   }
-});
+);
 
 app.get("/update-blog/:id", function (request, response) {
   const id = request.params.id;
@@ -337,39 +376,44 @@ app.get("/update-blog/:id", function (request, response) {
   });
 });
 
-app.post("/update-blog/:id", function (request, response) {
-  const id = request.params.id;
-  const newTitle = request.body.title;
-  const newDate = request.body.date;
-  const newIntro = request.body.intro;
+app.post(
+  "/update-blog/:id",
+  upload.single("image"),
+  function (request, response) {
+    const id = request.params.id;
+    const newTitle = request.body.title;
+    const newDate = request.body.date;
+    const newIntro = request.body.intro;
 
-  const errorMessages = getErrorMessagesForBlog(newTitle, newDate, newIntro);
+    const errorMessages = getErrorMessagesForBlog(newTitle, newDate, newIntro);
 
-  if (errorMessages.length == 0) {
-    const query = `UPDATE blogs SET title=?,date=?,intro=? WHERE id=?`;
+    if (errorMessages.length == 0) {
+      const newimgURL = request.file.filename;
+      const query = `UPDATE blogs SET title=?,date=?,intro=?,imgURL=? WHERE id=?`;
 
-    const values = [newTitle, newDate, newIntro, id];
+      const values = [newTitle, newDate, newIntro, newimgURL, id];
 
-    database.run(query, values, function (error) {
-      if (error) {
-        console.log(error);
-      } else {
-        response.redirect("/blogs/" + id);
-      }
-    });
-  } else {
-    const model = {
-      blog: {
-        title: newTitle,
-        date: newDate,
-        intro: newIntro,
-      },
-      errorMessages,
-    };
+      database.run(query, values, function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          response.redirect("/blogs/" + id);
+        }
+      });
+    } else {
+      const model = {
+        blog: {
+          title: newTitle,
+          date: newDate,
+          intro: newIntro,
+        },
+        errorMessages,
+      };
 
-    response.render("update-blog.hbs", model);
+      response.render("update-blog.hbs", model);
+    }
   }
-});
+);
 
 app.post("/delete-blog/:id", function (request, response) {
   const id = request.params.id;

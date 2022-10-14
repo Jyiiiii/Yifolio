@@ -3,6 +3,7 @@
   <p>{{blog.title}}</p>
   <p>{{blog.date}}</p>
   <p>{{blog.intro}}</p>
+  <img src="/uploadedImages/{{blog.imgURL}}" alt="{{blog.title}} image" />
 
   {{#if isLoggedIn}}
     <form action="/update-blog/{{blog.id}}" method="get">

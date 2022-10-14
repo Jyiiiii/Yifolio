@@ -30,6 +30,12 @@ h4 {
   font-weight: 200;
 }
 
+h5 {
+  padding-left: var(--padding_left);
+  font-family: var(--text_font);
+  font-weight: 200;
+}
+
 /* header */
 #siteLogo {
   text-decoration: none;
@@ -65,8 +71,8 @@ h4 {
 }
 
 #login {
-  position: relative;
-  margin-left: 75%;
+  position: absolute;
+  margin-left: 80%;
 }
 
 #login input {
@@ -207,8 +213,20 @@ hr {
 /*creating & login*/
 .formBox {
   margin-left: 35%;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-bottom: 10%;
+  width: 400px;
+  box-sizing: border-box;
+  background-color: white;
+  border: 1px solid var(--text_color);
+  border-radius: 10px;
+  font-family: var(--text_font);
+}
+
+.formBoxForDetailPage {
+  margin-left: var(--padding_left);
+  margin-top: 5%;
+  margin-bottom: 5%;
   width: 400px;
   box-sizing: border-box;
   background-color: white;
@@ -250,7 +268,7 @@ hr {
 .editButton {
   border: 2px solid;
   background-color: white;
-  margin-left: var(--padding_left);
+  margin-left: 10px;
 }
 
 .errorMessagesForContact {

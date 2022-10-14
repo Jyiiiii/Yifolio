@@ -12,7 +12,11 @@
     {{/if}}
   </div>
 
-  <form action="/update-blog/{{blog.id}}" method="post">
+  <form
+    action="/update-blog/{{blog.id}}"
+    method="post"
+    enctype="multipart/form-data"
+  >
     <div class="textField">
       Title:<input type="text" name="title" value="{{{blog.title}}}" />
     </div>
@@ -22,6 +26,10 @@
     <div class="textField">
       Intro:<input type="text" name="intro" value="{{{blog.intro}}}" />
     </div>
-    <input type="submit" value="Create New Blog" />
+    <div class="textField">
+      Upload image:
+      <input type="file" name="image" value="{{{blog.image}}}" />
+    </div>
+    <input type="submit" value="Updat the Blog" />
   </form>
 </section>

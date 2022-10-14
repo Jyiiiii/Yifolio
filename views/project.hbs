@@ -1,15 +1,19 @@
 {{#if project}}
-  <p>{{project.title}}</p>
-  <p>{{project.intro}}</p>
+  <h4>{{project.title}}</h4>
+  <h5>{{project.intro}}</h5>
+  <img src="/uploadedImages/{{project.imgURL}}" alt="{{project.title}} image" />
 
   {{#if isLoggedIn}}
-    <form action="/update-project/{{project.id}}">
-      <input class="editButton" type="submit" value="Update" />
-    </form>
+    <div>
+      <form action="/update-project/{{project.id}}">
+        <input class="editButton" type="submit" value="Update" />
+      </form>
 
-    <form action="/delete-project/{{project.id}}" method="post">
-      <input class="editButton" type="submit" value="Delete" />
-    </form>
+      <form action="/delete-project/{{project.id}}" method="post">
+        <input class="editButton" type="submit" value="Delete" />
+      </form>
+    </div>
+
   {{/if}}
 
 {{else}}

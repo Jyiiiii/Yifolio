@@ -12,12 +12,16 @@
     {{/if}}
   </div>
 
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
     <div class="textField">
       Title:<input type="text" name="title" value="{{{project.title}}}" />
     </div>
     <div class="textField">
       Intro:<input type="text" name="intro" value="{{{project.intro}}}" />
+    </div>
+    <div class="textField">
+      Upload image:
+      <input type="file" name="image" value="{{{project.image}}}" />
     </div>
     <input type="submit" value="Update" />
   </form>
