@@ -21,7 +21,11 @@
     </div>
     <div class="textField">
       Upload image:
-      <input type="file" name="image" value="{{{project.image}}}" />
+      <div class="uploadField">
+        <img id="imgForUploaded" src="/uploadedImages/{{project.imgURL}}" />
+        <input type="file" name="image" />
+      </div>
+
     </div>
     <input type="submit" value="Update" />
   </form>

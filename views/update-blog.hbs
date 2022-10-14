@@ -28,7 +28,10 @@
     </div>
     <div class="textField">
       Upload image:
-      <input type="file" name="image" value="{{{blog.image}}}" />
+      <div class="uploadField">
+        <img id="imgForUploaded" src="/uploadedImages/{{blog.imgURL}}" />
+        <input type="file" name="image" />
+      </div>
     </div>
     <input type="submit" value="Updat the Blog" />
   </form>

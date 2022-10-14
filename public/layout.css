@@ -281,3 +281,11 @@ hr {
   margin-left: 5%;
   color: rgb(234, 81, 76);
 }
+
+.uploadField {
+  display: flex;
+}
+
+#imgForUploaded {
+  width: 25%;
+}

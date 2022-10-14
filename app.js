@@ -6,6 +6,7 @@ const expressSession = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(expressSession);
 const multer = require("multer");
 const path = require("path");
+const bcrypt = require("bcrypt");
 
 const titleMaxLength = 80;
 const nameMaxLength = 10;
@@ -63,7 +64,8 @@ app.use(
 );
 
 const adminUsername = "itzYi";
-const adminPassword = "1111";
+const adminPassword =
+  "$2b$10$auZgqHRe7qcwoFKaywiWk.MNoldbBHx6ydUSS8t3ZLZGlegJ16xHa";
 
 app.engine(
   "hbs",
@@ -139,6 +141,9 @@ app.post(
     const intro = request.body.intro;
 
     const errorMessages = getErrorMessagesForProject(title, intro);
+    if (!request.file) {
+      errorMessages.push("Please upload a image!");
+    }
 
     if (errorMessages.length == 0) {
       const imgURL = request.file.filename;
@@ -189,6 +194,9 @@ app.post(
     const newIntro = request.body.intro;
 
     const errorMessages = getErrorMessagesForProject(newTitle, newIntro);
+    if (!request.file) {
+      errorMessages.push("Please upload a image!");
+    }
 
     if (errorMessages.length == 0) {
       const newimgURL = request.file.filename;
@@ -334,6 +342,9 @@ app.post(
     const intro = request.body.intro;
 
     const errorMessages = getErrorMessagesForBlog(title, date, intro);
+    if (!request.file) {
+      errorMessages.push("Please upload a image!");
+    }
 
     if (errorMessages.length == 0) {
       const imgURL = request.file.filename;
@@ -386,6 +397,9 @@ app.post(
     const newIntro = request.body.intro;
 
     const errorMessages = getErrorMessagesForBlog(newTitle, newDate, newIntro);
+    if (!request.file) {
+      errorMessages.push("Please upload a image!");
+    }
 
     if (errorMessages.length == 0) {
       const newimgURL = request.file.filename;
@@ -469,12 +483,16 @@ app.get("/blogs-search", function (request, response) {
       }
     });
   } else {
-    const model = {
-      errorMessages,
-      searchValue,
-    };
+    const query = `SELECT * FROM blogs`;
 
-    response.render("blogs.hbs", model);
+    database.all(query, function (error, blogs) {
+      const model = {
+        errorMessages,
+        blogs,
+      };
+
+      response.render("blogs.hbs", model);
+    });
   }
 });
 
@@ -609,12 +627,16 @@ app.get("/contactInfos-search", function (request, response) {
       }
     });
   } else {
-    const model = {
-      errorMessages,
-      searchValue,
-    };
+    const query = `SELECT * FROM contactInfos`;
 
-    response.render("display-contactInfos.hbs", model);
+    database.all(query, function (error, contactInfos) {
+      const model = {
+        errorMessages,
+        contactInfos,
+      };
+
+      response.render("display-contactInfos.hbs", model);
+    });
   }
 });
 
@@ -639,8 +661,9 @@ app.post("/login", function (request, response) {
   const enteredPassword = request.body.password;
 
   const invalidAccount = [];
+  const correctPassword = bcrypt.compareSync(enteredPassword, adminPassword);
 
-  if (enteredUsername != adminUsername && enteredPassword != adminPassword) {
+  if (enteredUsername != adminUsername || correctPassword === false) {
     invalidAccount.push("It is a invalid account!");
   }
 
