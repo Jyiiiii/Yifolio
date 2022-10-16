@@ -1,4 +1,4 @@
-<h4>📬Messages from new clients:</h4>
+<h4 id="contactInfosHeader">📬Messages from new clients:</h4>
 
 <div>
   <form action="/contactInfos-search" method="get" id="searchbar">
@@ -25,7 +25,7 @@
     <div class="contactDisplay">
       {{#each contactInfos}}
         <div class="contactItems">
-          <p>NewContact #{{id}}</p>
+          <h5 class="newContactTitle">NewContact #{{id}}</h5>
           <p>Name: {{firstName}}{{lastName}}</p>
           <p>Email: {{email}}</p>
           <p>Project Deadline:{{date}}</p>

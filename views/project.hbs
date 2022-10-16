@@ -1,21 +1,29 @@
 {{#if project}}
-  <h4>{{project.title}}</h4>
-  <h5>{{project.intro}}</h5>
-  <img src="/uploadedImages/{{project.imgURL}}" alt="{{project.title}} image" />
+  <p class="detailTitle">Title:</p>
+  <h4 class="projectTitle">{{project.title}}</h4>
+  <p class="introHeader">Intro:</p>
+  <h5 class="projectIntro">{{project.intro}}</h5>
 
   {{#if isLoggedIn}}
     <div>
       <form action="/update-project/{{project.id}}">
-        <input class="editButton" type="submit" value="Update" />
+        <input class="updateButton" type="submit" value="Update" />
       </form>
 
       <form action="/delete-project/{{project.id}}" method="post">
-        <input class="editButton" type="submit" value="Delete" />
+        <input class="deleteButton" type="submit" value="Delete" />
       </form>
     </div>
 
   {{/if}}
 
+  <center>
+    <img
+      class="detailPageImg"
+      src="/uploadedImages/{{project.imgURL}}"
+      alt="{{project.title}} image"
+    />
+  </center>
 {{else}}
   <h4>Not exists!</h4>
   <p>I have not got this project yet.🤪</p>

@@ -1,6 +1,3 @@
-<h1>My Blogs</h1>
-<p>Record my life.</p>
-
 <div>
   <form action="/blogs-search" method="get" id="searchbar">
     <input
@@ -24,9 +21,13 @@
 <div class="portfolioDisplay">
   {{#each blogs}}
     <div class="gridItem">
-      {{!-- <img src="/uploadedImages/{{imgURL}}" alt="{{title}} image" /> --}}
-      <a href="/blogs/{{id}}"> <p id="title">{{title}}</p></a>
-      <p>{{date}}</p>
+      <div class="imageContainer">
+        <a href="/blogs/{{id}}">
+          <img src="/uploadedImages/{{imgURL}}" alt="{{title}} image" />
+        </a>
+      </div>
+      <a href="/blogs/{{id}}"> <p class="title">{{title}}</p></a>
+      <p class="date">{{date}}</p>
     </div>
   {{/each}}
 </div>

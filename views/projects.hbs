@@ -1,6 +1,3 @@
-<h1>My projects</h1>
-<p>These are my works.</p>
-
 <div>
   <form action="/projects-search" method="get" id="searchBar">
     <input
@@ -24,7 +21,12 @@
 <div class="portfolioDisplay">
   {{#each projects}}
     <div class="gridItem">
-      <a href="/projects/{{id}}"><p id="title">{{title}}</p></a>
+      <div class="imageContainer">
+        <a href="/projects/{{id}}">
+          <img src="/uploadedImages/{{imgURL}}" alt="{{title}} image" />
+        </a>
+      </div>
+      <a href="/projects/{{id}}"><p class="title">{{title}}</p></a>
     </div>
   {{/each}}
 </div>
