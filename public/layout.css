@@ -74,17 +74,21 @@ h5 {
 }
 
 #login {
-  position: absolute;
-  margin-left: 80%;
+  margin-left: 75%;
 }
 
-#login input {
+#logout {
+  position: absolute;
+  margin-left: 75%;
+}
+
+#logout input {
   border: none;
   background: none;
   font-family: var(--title_font);
   font-size: 18px;
   font-weight: 300;
-  color: var(--text_color);
+  color: rgb(234, 81, 76);
 }
 
 /* footer */
@@ -130,9 +134,10 @@ hr {
 #selfie {
   margin-left: 70%;
   margin-bottom: 10%;
+  max-width: 50%;
 }
 
-/*project and blog page*/
+/*projects and blogs page*/
 .portfolioDisplay {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -181,31 +186,31 @@ hr {
   font-family: var(--text_font);
   font-weight: 500;
   position: absolute;
-  margin: 40px 0 0 100px;
+  margin: 3% 0 0 8%;
 }
 
 .projectTitle {
   position: absolute;
-  margin: 70px 0 0 100px;
+  margin: 7% 0 0 8%;
 }
 
 .introHeader {
   font-family: var(--text_font);
   font-weight: 500;
   position: absolute;
-  margin: 120px 0 0 100px;
+  margin: 11% 0 0 8%;
 }
 
 .projectIntro {
   position: absolute;
-  margin: 150px 0 0 100px;
+  margin: 15% 0 0 8%;
   font-weight: 300;
   width: 600px;
 }
 
 .detailPageImg {
   width: 500px;
-  margin: 250px 0 50px 0;
+  margin: 20% 0 5% 0;
 }
 
 .blogTitle {
@@ -229,6 +234,7 @@ hr {
 /*contact page*/
 .contactForm {
   margin-left: 50%;
+  margin-top: 2%;
 }
 
 #contactHeader {
@@ -318,7 +324,6 @@ hr {
 
 /*creating & login*/
 .formBox {
-  margin-left: 35%;
   margin-top: 5%;
   margin-bottom: 10%;
   width: 400px;
@@ -329,20 +334,7 @@ hr {
   font-family: var(--text_font);
 }
 
-.formBoxForDetailPage {
-  margin-left: var(--padding_left);
-  margin-top: 5%;
-  margin-bottom: 5%;
-  width: 400px;
-  box-sizing: border-box;
-  background-color: white;
-  border: 1px solid var(--text_color);
-  border-radius: 10px;
-  font-family: var(--text_font);
-}
-
 .formBox h4 {
-  text-align: center;
   padding: 20px 0 10px 0;
   border-bottom: 1px solid silver;
 }
@@ -353,6 +345,7 @@ hr {
 
 .textField {
   position: relative;
+  text-align: left;
   border-bottom: 1px solid var(--text_color);
   margin: 30px 0;
 }
@@ -375,7 +368,7 @@ hr {
   position: absolute;
   border: 2px solid;
   background-color: white;
-  margin: 60px 0 0 800px;
+  margin: 5% 0 0 60%;
 }
 
 .deleteButton {
@@ -383,11 +376,11 @@ hr {
   border: 2px solid;
   background-color: white;
   border-color: rgb(234, 81, 76);
-  margin: 120px 0 0 800px;
+  margin: 10% 0 0 60%;
 }
 
 .errorMessagesForContact {
-  margin-top: -300px;
+  margin-top: -250px;
   margin-left: 50%;
   color: rgb(234, 81, 76);
 }
@@ -403,4 +396,146 @@ hr {
 
 #imgForUploaded {
   width: 25%;
+}
+
+/* responsive for phone */
+@media only screen and (max-width: 750px) {
+  /* mainPage */
+  p {
+    font-size: 12px;
+  }
+
+  a {
+    font-size: 12px;
+  }
+
+  #siteLogo {
+    font-size: 15px;
+  }
+
+  #nav a {
+    font-size: 12px;
+  }
+
+  .navAbove {
+    margin-left: 3%;
+  }
+
+  .navAbove a {
+    font-size: 12px;
+    margin-top: 8%;
+  }
+
+  #login {
+    margin-left: 50%;
+  }
+
+  #logout {
+    margin-left: 70%;
+  }
+
+  #logout input {
+    font-size: 12px;
+  }
+
+  #copyright {
+    font-size: 12px;
+  }
+
+  #intro {
+    font-size: 25px;
+    margin-top: 10%;
+  }
+
+  #selfie {
+    margin-left: 40%;
+  }
+
+  /* projects & blogs Page */
+  .portfolioDisplay {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 60px;
+    grid-row-gap: 20px;
+  }
+
+  .imageContainer {
+    height: 150px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  #searchbar {
+    margin-left: 40%;
+    transform: scale(0.7);
+  }
+
+  .errorMessagesForSearch {
+    margin-left: 38%;
+    font-size: 15px;
+  }
+
+  /* contactPage */
+  #contactHeader {
+    font-size: 20px;
+  }
+
+  .contactForm {
+    margin-left: 5%;
+    margin-top: 8%;
+    max-width: 300px;
+  }
+
+  .nameGroup {
+    flex-direction: column;
+  }
+
+  #socialLinks img {
+    max-width: 20px;
+  }
+
+  .errorMessagesForContact {
+    font-size: 12px;
+    max-width: 300px;
+    margin-top: 2%;
+    margin-left: 5%;
+  }
+
+  .contactDisplay {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* detailPage */
+  .projectTitle {
+    font-size: 8px;
+  }
+
+  .projectIntro {
+    font-size: 8px;
+    max-width: 200px;
+  }
+
+  .detailPageImg {
+    width: 200px;
+    margin: 40% 0 5% 0;
+  }
+
+  .blogIntro {
+    width: 300px;
+  }
+
+  .updateButton {
+    transform: scale(0.7);
+  }
+
+  .deleteButton {
+    margin: 15% 0 0 60%;
+    transform: scale(0.7);
+  }
+
+  /* addingPages */
+  .formBox {
+    transform: scale(0.7);
+  }
 }
