@@ -1,20 +1,22 @@
-<section class="formBox">
-  <h4>Login</h4>
-  <form action="" method="post">
-    <div>
-      {{#if invalidAccount.length}}
-        {{invalidAccount}}
-      {{/if}}
-    </div>
-    <div class="textField">
-      <label>Username</label>
-      <input type="text" name="username" />
-    </div>
-    <div class="textField">
-      <label>Password</label>
-      <input type="password" name="password" />
-    </div>
-    <input type="submit" value="Login" />
+<center>
+  <section class="formBox">
+    <h4>Login</h4>
+    <form action="" method="post">
+      <div>
+        {{#if invalidAccount.length}}
+          {{invalidAccount}}
+        {{/if}}
+      </div>
+      <div class="textField">
+        <label>Username</label>
+        <input type="text" name="username" />
+      </div>
+      <div class="textField">
+        <label>Password</label>
+        <input type="password" name="password" />
+      </div>
+      <input type="submit" value="Login" />
 
-  </form>
-</section>
+    </form>
+  </section>
+</center>

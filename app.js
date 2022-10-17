@@ -1,17 +1,18 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
-const sqlite3 = require("sqlite3");
+// const sqlite3 = require("sqlite3");
 const expressSession = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(expressSession);
 const multer = require("multer");
 const path = require("path");
 const bcrypt = require("bcrypt");
+const database = require("./db.js");
 
 const titleMaxLength = 80;
 const nameMaxLength = 10;
 
-const database = new sqlite3.Database("Yifolio-database.db");
+// const database = new sqlite3.Database("Yifolio-database.db");
 
 //for upload the files
 const storage = multer.diskStorage({
@@ -24,33 +25,33 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-database.run(`
-  CREATE TABLE IF NOT EXISTS projects(
-      id INTEGER PRIMARY KEY, 
-      title TEXT, 
-      intro TEXT
-  )
-`);
+// database.run(`
+//   CREATE TABLE IF NOT EXISTS projects(
+//       id INTEGER PRIMARY KEY,
+//       title TEXT,
+//       intro TEXT
+//   )
+// `);
 
-database.run(`
-  CREATE TABLE IF NOT EXISTS blogs(
-      id INTEGER PRIMARY KEY, 
-      title TEXT,
-      date TEXT, 
-      intro TEXT
-  )
-`);
+// database.run(`
+//   CREATE TABLE IF NOT EXISTS blogs(
+//       id INTEGER PRIMARY KEY,
+//       title TEXT,
+//       date TEXT,
+//       intro TEXT
+//   )
+// `);
 
-database.run(`
-    CREATE TABLE IF NOT EXISTS contactInfos(
-      id INTEGER PRIMARY KEY,
-      firstName TEXT,
-      lastName TEXT,
-      email TEXT,
-      date INTEGER,
-      description TEXT
-    )
-`);
+// database.run(`
+//     CREATE TABLE IF NOT EXISTS contactInfos(
+//       id INTEGER PRIMARY KEY,
+//       firstName TEXT,
+//       lastName TEXT,
+//       email TEXT,
+//       date INTEGER,
+//       description TEXT
+//     )
+// `);
 
 const app = express();
 
@@ -96,14 +97,16 @@ app.get("/", function (request, response) {
 
 //pages about projects
 app.get("/projects", function (request, response) {
-  const query = `SELECT * FROM projects`;
+  database.getAllProjects(function (error, projects) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        projects,
+      };
 
-  database.all(query, function (error, projects) {
-    const model = {
-      projects,
-    };
-
-    response.render("projects.hbs", model);
+      response.render("projects.hbs", model);
+    }
   });
 });
 
@@ -147,11 +150,8 @@ app.post(
 
     if (errorMessages.length == 0) {
       const imgURL = request.file.filename;
-      const query = `INSERT INTO projects (title,intro,imgURL) VALUES (?,?,?)`;
 
-      const values = [title, intro, imgURL];
-
-      database.run(query, values, function (error) {
+      database.createProject(title, intro, imgURL, function (error) {
         if (error) {
           console.log(error);
         } else {
@@ -170,18 +170,36 @@ app.post(
   }
 );
 
+//detail page for each project
+app.get("/projects/:id", function (request, response) {
+  const id = request.params.id;
+
+  database.getProjectById(id, function (error, project) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        project,
+      };
+
+      response.render("project.hbs", model);
+    }
+  });
+});
+
 app.get("/update-project/:id", function (request, response) {
   const id = request.params.id;
 
-  const query = `SELECT * FROM projects WHERE id=?`;
-  const values = [id];
+  database.getProjectById(id, function (error, project) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        project,
+      };
 
-  database.get(query, values, function (error, project) {
-    const model = {
-      project,
-    };
-
-    response.render("update-project.hbs", model);
+      response.render("update-project.hbs", model);
+    }
   });
 });
 
@@ -200,17 +218,19 @@ app.post(
 
     if (errorMessages.length == 0) {
       const newimgURL = request.file.filename;
-      const query = `UPDATE projects SET title=?,intro=?,imgURL=? WHERE id=?`;
-
-      const values = [newTitle, newIntro, newimgURL, id];
-
-      database.run(query, values, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          response.redirect("/projects/" + id);
+      database.updateProject(
+        newTitle,
+        newIntro,
+        newimgURL,
+        id,
+        function (error) {
+          if (error) {
+            console.log(error);
+          } else {
+            response.redirect("/projects/" + id);
+          }
         }
-      });
+      );
     } else {
       const model = {
         errorMessages,
@@ -228,27 +248,12 @@ app.post(
 app.post("/delete-project/:id", function (request, response) {
   const id = request.params.id;
 
-  const query = `DELETE FROM projects WHERE id=?`;
-  const values = [id];
-
-  database.run(query, values, function (error) {
-    response.redirect("/projects");
-  });
-});
-
-//detail page for each project
-app.get("/projects/:id", function (request, response) {
-  const id = request.params.id;
-
-  const query = `SELECT * FROM projects WHERE id=?`;
-  const values = [id];
-
-  database.get(query, values, function (error, project) {
-    const model = {
-      project,
-    };
-
-    response.render("project.hbs", model);
+  database.deleteProject(id, function (error) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.redirect("/projects");
+    }
   });
 });
 
@@ -263,10 +268,7 @@ app.get("/projects-search", function (request, response) {
   }
 
   if (errorMessages.length == 0) {
-    const query = `SELECT * FROM projects WHERE title LIKE ? OR intro LIKE ?`;
-    const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
-
-    database.all(query, values, function (error, projects) {
+    database.searchProjects(searchValue, function (error, projects) {
       if (error) {
         console.log("Internal server error!Related to search function!");
       } else {
@@ -278,28 +280,33 @@ app.get("/projects-search", function (request, response) {
       }
     });
   } else {
-    const query = `SELECT * FROM projects`;
+    database.getAllProjects(function (error, projects) {
+      if (error) {
+        console.log(error);
+      } else {
+        const model = {
+          errorMessages,
+          projects,
+        };
 
-    database.all(query, function (error, projects) {
-      const model = {
-        errorMessages,
-        projects,
-      };
-
-      response.render("projects.hbs", model);
+        response.render("projects.hbs", model);
+      }
     });
   }
 });
+
 //pages for blogs
 app.get("/blogs", function (request, response) {
-  const query = `SELECT * FROM blogs`;
+  database.getAllBLogs(function (error, blogs) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        blogs,
+      };
 
-  database.all(query, function (error, blogs) {
-    const model = {
-      blogs,
-    };
-
-    response.render("blogs.hbs", model);
+      response.render("blogs.hbs", model);
+    }
   });
 });
 
@@ -348,11 +355,8 @@ app.post(
 
     if (errorMessages.length == 0) {
       const imgURL = request.file.filename;
-      const query = `INSERT INTO blogs (title,date,intro,imgURL) VALUES (?,?,?,?)`;
 
-      const values = [title, date, intro, imgURL];
-
-      database.run(query, values, function (error) {
+      database.createBlog(title, date, intro, imgURL, function (error) {
         if (error) {
           console.log(error);
         } else {
@@ -372,18 +376,36 @@ app.post(
   }
 );
 
+//detail page for each blog
+app.get("/blogs/:id", function (request, response) {
+  const id = request.params.id;
+
+  database.getBlogById(id, function (error, blog) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        blog,
+      };
+
+      response.render("blog.hbs", model);
+    }
+  });
+});
+
 app.get("/update-blog/:id", function (request, response) {
   const id = request.params.id;
 
-  const query = `SELECT * FROM blogs WHERE id=?`;
-  const values = [id];
+  database.getBlogById(id, function (error, blog) {
+    if (error) {
+      console.log(error);
+    } else {
+      const model = {
+        blog,
+      };
 
-  database.get(query, values, function (error, blog) {
-    const model = {
-      blog,
-    };
-
-    response.render("update-blog.hbs", model);
+      response.render("update-blog.hbs", model);
+    }
   });
 });
 
@@ -403,17 +425,20 @@ app.post(
 
     if (errorMessages.length == 0) {
       const newimgURL = request.file.filename;
-      const query = `UPDATE blogs SET title=?,date=?,intro=?,imgURL=? WHERE id=?`;
-
-      const values = [newTitle, newDate, newIntro, newimgURL, id];
-
-      database.run(query, values, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          response.redirect("/blogs/" + id);
+      database.updateBlog(
+        newTitle,
+        newDate,
+        newIntro,
+        newimgURL,
+        id,
+        function (error) {
+          if (error) {
+            console.log(error);
+          } else {
+            response.redirect("/blogs/" + id);
+          }
         }
-      });
+      );
     } else {
       const model = {
         blog: {
@@ -432,27 +457,12 @@ app.post(
 app.post("/delete-blog/:id", function (request, response) {
   const id = request.params.id;
 
-  const query = `DELETE FROM blogs WHERE id=?`;
-  const values = [id];
-
-  database.run(query, values, function (error) {
-    response.redirect("/blogs");
-  });
-});
-
-//detail page for each blog
-app.get("/blogs/:id", function (request, response) {
-  const id = request.params.id;
-
-  const query = `SELECT * FROM blogs WHERE id=?`;
-  const values = [id];
-
-  database.get(query, values, function (error, blog) {
-    const model = {
-      blog,
-    };
-
-    response.render("blog.hbs", model);
+  database.deleteBlog(id, function (error) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.redirect("/blogs");
+    }
   });
 });
 
@@ -467,10 +477,7 @@ app.get("/blogs-search", function (request, response) {
   }
 
   if (errorMessages.length == 0) {
-    const query = `SELECT * FROM blogs WHERE title LIKE ? OR date LIKE ?`;
-    const values = ["%" + searchValue + "%", "%" + searchValue + "%"];
-
-    database.all(query, values, function (error, blogs) {
+    database.searchBlogs(searchValue, function (error, blogs) {
       if (error) {
         console.log("Internal server error!Related to search function!");
       } else {
@@ -483,15 +490,17 @@ app.get("/blogs-search", function (request, response) {
       }
     });
   } else {
-    const query = `SELECT * FROM blogs`;
+    database.getAllBLogs(function (error, blogs) {
+      if (error) {
+        console.log(error);
+      } else {
+        const model = {
+          errorMessages,
+          blogs,
+        };
 
-    database.all(query, function (error, blogs) {
-      const model = {
-        errorMessages,
-        blogs,
-      };
-
-      response.render("blogs.hbs", model);
+        response.render("blogs.hbs", model);
+      }
     });
   }
 });
@@ -559,13 +568,20 @@ app.post("/contact", function (request, response) {
   );
 
   if (errorMessages.length == 0) {
-    const query = `INSERT INTO contactInfos (firstName,lastName,email,date,description) VALUES (?,?,?,?,?)`;
-
-    const values = [firstName, lastName, email, date, description];
-
-    database.run(query, values, function (error) {
-      response.redirect("/contact");
-    });
+    database.createContactInfo(
+      firstName,
+      lastName,
+      email,
+      date,
+      description,
+      function (error) {
+        if (error) {
+          console.log(error);
+        } else {
+          response.redirect("/contact");
+        }
+      }
+    );
   } else {
     const model = {
       errorMessages,
@@ -582,16 +598,19 @@ app.post("/contact", function (request, response) {
 
 //display contact informations
 app.get("/contactInfos", function (request, response) {
-  const query = `SELECT * FROM contactInfos`;
-
-  database.all(query, function (error, contactInfos) {
-    const model = {
-      contactInfos,
-    };
-    if (request.session.isLoggedIn) {
-      response.render("display-contactInfos.hbs", model);
+  database.getAllContactInfos(function (error, contactInfos) {
+    if (error) {
+      console.log(error);
     } else {
-      response.redirect("/login");
+      const model = {
+        contactInfos,
+      };
+
+      if (request.session.isLoggedIn) {
+        response.render("display-contactInfos.hbs", model);
+      } else {
+        response.redirect("/login");
+      }
     }
   });
 });
@@ -606,15 +625,7 @@ app.get("/contactInfos-search", function (request, response) {
   }
 
   if (errorMessages.length == 0) {
-    const query = `SELECT * FROM contactInfos WHERE firstName LIKE ? OR lastName LIKE ? OR email LIKE ? OR date LIKE ? `;
-    const values = [
-      "%" + searchValue + "%",
-      "%" + searchValue + "%",
-      "%" + searchValue + "%",
-      "%" + searchValue + "%",
-    ];
-
-    database.all(query, values, function (error, contactInfos) {
+    database.searchContactInfos(searchValue, function (error, contactInfos) {
       if (error) {
         console.log("Internal server error!Related to search function!");
       } else {
@@ -627,15 +638,17 @@ app.get("/contactInfos-search", function (request, response) {
       }
     });
   } else {
-    const query = `SELECT * FROM contactInfos`;
+    database.getAllContactInfos(function (error, contactInfos) {
+      if (error) {
+        console.log(error);
+      } else {
+        const model = {
+          errorMessages,
+          contactInfos,
+        };
 
-    database.all(query, function (error, contactInfos) {
-      const model = {
-        errorMessages,
-        contactInfos,
-      };
-
-      response.render("display-contactInfos.hbs", model);
+        response.render("display-contactInfos.hbs", model);
+      }
     });
   }
 });
@@ -643,11 +656,12 @@ app.get("/contactInfos-search", function (request, response) {
 app.post("/delete-contactInfo:id", function (request, response) {
   const id = request.params.id;
 
-  const query = `DELETE FROM contactInfos WHERE id=?`;
-  const values = [id];
-
-  database.run(query, values, function (error) {
-    response.redirect("/contactInfos");
+  database.deleteContactInfo(id, function (error) {
+    if (error) {
+      console.log(error);
+    } else {
+      response.redirect("/contactInfos");
+    }
   });
 });
 

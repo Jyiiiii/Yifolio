@@ -388,6 +388,7 @@ hr {
 .errorMessagesForElse {
   margin-left: 5%;
   color: rgb(234, 81, 76);
+  text-align: left;
 }
 
 .uploadField {
