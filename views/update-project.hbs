@@ -1,34 +1,36 @@
-<section class="formBox">
-  <center>
-    <h4>Update the project</h4>
-  </center>
+<center>
+  <section class="formBox">
+    <center>
+      <h4>Update the project</h4>
+    </center>
 
-  <div class="errorMessagesForElse">
-    {{#if errorMessages.length}}
-      <p>Fail to update the project because:</p>
-      <ul>
-        {{#each errorMessages}}
-          <li>{{this}}</li>
-        {{/each}}
-      </ul>
-    {{/if}}
-  </div>
+    <div class="errorMessagesForElse">
+      {{#if errorMessages.length}}
+        <p>Fail to update the project because:</p>
+        <ul>
+          {{#each errorMessages}}
+            <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      {{/if}}
+    </div>
 
-  <form method="post" enctype="multipart/form-data">
-    <div class="textField">
-      Title:<input type="text" name="title" value="{{project.title}}" />
-    </div>
-    <div class="textField">
-      Intro:<input type="text" name="intro" value="{{{project.intro}}}" />
-    </div>
-    <div class="textField">
-      Upload image:
-      <div class="uploadField">
-        <img id="imgForUploaded" src="/uploadedImages/{{project.imgURL}}" />
-        <input type="file" name="image" />
+    <form method="post" enctype="multipart/form-data">
+      <div class="textField">
+        Title:<input type="text" name="title" value="{{project.title}}" />
       </div>
+      <div class="textField">
+        Intro:<input type="text" name="intro" value="{{{project.intro}}}" />
+      </div>
+      <div class="textField">
+        Upload image:
+        <div class="uploadField">
+          <img id="imgForUploaded" src="/uploadedImages/{{project.imgURL}}" />
+          <input type="file" name="image" />
+        </div>
 
-    </div>
-    <input type="submit" value="Update" />
-  </form>
-</section>
+      </div>
+      <input type="submit" value="Update" />
+    </form>
+  </section>
+</center>

@@ -12,8 +12,6 @@ const database = require("./db.js");
 const titleMaxLength = 80;
 const nameMaxLength = 10;
 
-// const database = new sqlite3.Database("Yifolio-database.db");
-
 //for upload the files
 const storage = multer.diskStorage({
   destination: (request, file, callback) => {
@@ -24,34 +22,6 @@ const storage = multer.diskStorage({
   },
 });
 const upload = multer({ storage: storage });
-
-// database.run(`
-//   CREATE TABLE IF NOT EXISTS projects(
-//       id INTEGER PRIMARY KEY,
-//       title TEXT,
-//       intro TEXT
-//   )
-// `);
-
-// database.run(`
-//   CREATE TABLE IF NOT EXISTS blogs(
-//       id INTEGER PRIMARY KEY,
-//       title TEXT,
-//       date TEXT,
-//       intro TEXT
-//   )
-// `);
-
-// database.run(`
-//     CREATE TABLE IF NOT EXISTS contactInfos(
-//       id INTEGER PRIMARY KEY,
-//       firstName TEXT,
-//       lastName TEXT,
-//       email TEXT,
-//       date INTEGER,
-//       description TEXT
-//     )
-// `);
 
 const app = express();
 

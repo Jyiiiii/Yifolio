@@ -29,7 +29,7 @@
           <p>Name: {{firstName}}{{lastName}}</p>
           <p>Email: {{email}}</p>
           <p>Project Deadline:{{date}}</p>
-          <p>Description: {{description}}</p>
+          <p id="description">Description: {{description}}</p>
           <form action="/delete-contactInfo{{id}}" method="post">
             <input type="submit" value="Delete" />
           </form>
