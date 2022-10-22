@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yi Jiang</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yi Jiang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap"
@@ -24,46 +25,45 @@
       href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css"
     />
     <link rel="stylesheet" href="/layout.css" />
-  </head>
-  <body>
-    <header class="header">
-      <a id="siteLogo" href="/">YI JIANG</a>
-      <nav class="navAbove">
-        <a href="/projects">Projects</a>
-        <a href="/blogs">Blogs</a>
-        <a href="/contact">Contact</a>
-        {{#if isLoggedIn}}
-          <a href="/create-newproject">AddProjects</a>
-          <a href="/create-newblog">AddBlogs</a>
-          <a href="/contactInfos">ContactInfos</a>
-        {{/if}}
-        {{#unless isLoggedIn}}
-          <a id="login" href="/login">Login</a>
-        {{/unless}}
-        {{#if isLoggedIn}}
-          <form id="logout" action="/logout" method="post">
-            <input type="submit" value="Logout" />
-          </form>
-        {{/if}}
-      </nav>
-    </header>
+</head>
+<body>
+  <header class="header">
+    <a id="siteLogo" href="/">YI JIANG</a>
+    <nav class="navAbove">
+      <a href="/projects">Projects</a>
+      <a href="/blogs">Blogs</a>
+      <a href="/contact">Contact</a>
+      {{#if isLoggedIn}}
+        <a href="/create-newproject">AddProjects</a>
+        <a href="/create-newblog">AddBlogs</a>
+        <a href="/contactInfos">ContactInfos</a>
+      {{/if}}
+      {{#unless isLoggedIn}}
+        <a id="login" href="/login">Login</a>
+      {{/unless}}
+      {{#if isLoggedIn}}
+        <form id="logout" action="/logout" method="post">
+          <input type="submit" value="Logout" />
+        </form>
+      {{/if}}
+    </nav>
+  </header>
 
-    {{{body}}}
+  {{{body}}}
 
-    <footer>
-      <br />
-      <hr />
-      <nav id="nav">
-        <a href="/">Home</a>
-        /
-        <a href="/projects">Projects</a>
-        /
-        <a href="/blogs">Blogs</a>
-        /
-        <a href="/contact">Contact</a>
-      </nav>
-      <p id="copyright">Copyright Yi Jiang 2022</p>
-    </footer>
-  </body>
-
+  <footer>
+    <br />
+    <hr />
+    <nav id="nav">
+      <a href="/">Home</a>
+      /
+      <a href="/projects">Projects</a>
+      /
+      <a href="/blogs">Blogs</a>
+      /
+      <a href="/contact">Contact</a>
+    </nav>
+    <p id="copyright">Copyright Yi Jiang 2022</p>
+  </footer>
+</body>
 </html>

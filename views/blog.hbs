@@ -1,9 +1,9 @@
 {{#if blog}}
-  <center>
+  <div>
     <h4 class="blogTitle">{{blog.title}}</h4>
     <h5 class="blogDate">{{blog.date}}</h5>
     <p class="blogIntro">{{blog.intro}}</p>
-  </center>
+  </div>
 
   {{#if isLoggedIn}}
     <form action="/update-blog/{{blog.id}}" method="get">
@@ -15,13 +15,13 @@
     </form>
   {{/if}}
 
-  <center>
+  <div>
     <img
       class="detailPageImg"
       src="/uploadedImages/{{blog.imgURL}}"
       alt="{{blog.title}} image"
     />
-  </center>
+  </div>
 {{else}}
   <p>I have not post this blog yet.🤪</p>
 {{/if}}
