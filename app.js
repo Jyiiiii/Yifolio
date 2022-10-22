@@ -1,7 +1,6 @@
 const express = require("express");
 const expressHandlebars = require("express-handlebars");
 const bodyParser = require("body-parser");
-// const sqlite3 = require("sqlite3");
 const expressSession = require("express-session");
 const SQLiteStore = require("connect-sqlite3")(expressSession);
 const multer = require("multer");
